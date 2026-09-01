@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and virtual environments
+.env
+.venv/
+venv/
+env/
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large Model weights, checkpoints, and archives
+checkpoints/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.tar.gz
+*.parquet
+
+# Private / Competition-Sensitive Data
+data/raw/
+data/private/
+data/competition/*.jsonl
+data/competition/*.csv
+!data/competition/README.md
+data/derived/*.jsonl
+!data/derived/README.md
+
+# Predictions and Submissions
+outputs/*
+!outputs/.gitkeep
+submission.csv
+*_SCORED.csv
+*_predictions.csv
+
+# Secrets, Tokens, and Credentials
+kaggle.json
+wandb/
+.netrc
+*.key
+*.pem
