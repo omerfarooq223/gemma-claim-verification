@@ -1,0 +1,17 @@
+model:
+  name: "google/gemma-4-12B-it"
+  load_in_4bit: true
+
+generation:
+  enable_thinking: false
+  do_sample: false
+  num_beams: 1
+  max_new_tokens: 24
+  max_prompt_length: 256
+
+labels:
+  - "SUPPORTS"
+  - "REFUTES"
+  - "NOT_ENOUGH_INFO"
+
+selected_adapter_sha256: "76630ec4620ff7244f3b6c9ef0350617939d33a5bc6f0e9c545816175b646d8e"
