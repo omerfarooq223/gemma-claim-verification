@@ -1,0 +1,33 @@
+model:
+  name: "google/gemma-4-12B-it"
+  load_in_4bit: true
+  quant_type: "nf4"
+  double_quant: true
+  compute_dtype: "float16"
+  max_length: 256
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+training:
+  seed: 42
+  epochs: 2
+  batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  scheduler: "cosine"
+  warmup_ratio: 0.05
+  gradient_checkpointing: true
+  max_grad_norm: null
+  tf32: false
