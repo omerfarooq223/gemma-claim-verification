@@ -1,398 +1,175 @@
-# 🏆 1st Place Winner — AI Seekho Day 2026 Hackathon
-# Reliable Evidence-Based Claim Verification with Gemma 4 12B
+# Gemma Claim Verification
 
-<div align="center">
+I built this project for **AI Seekho Day 2026**, where it placed **first**. It uses a QLoRA adapter on Gemma 4 12B to classify a claim against supplied evidence. The selected checkpoint scored **94.40% accuracy** and **94.38% macro-F1** on the 500-example event-day test set.
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-green.svg)](pyproject.toml)
-[![Tests](https://img.shields.io/badge/Tests-Passing-success.svg)](tests/)
-[![Base Model](https://img.shields.io/badge/Base_Model-google%2Fgemma--4--12B--it-orange.svg)](https://huggingface.co/google/gemma-4-12B-it)
-[![Fine-Tuning](https://img.shields.io/badge/Fine--Tuning-QLoRA%20%2F%204--bit%20NF4-purple.svg)](#training-recipe--qlora-configuration)
-[![Hugging Face Model](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model%20Adapter-yellow.svg)](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Live%20Demo%20UI-blue.svg)](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier)
-[![Author](https://img.shields.io/badge/Author-Muhammad%20Umar%20Farooq-blue.svg)](https://github.com/omerfarooq223)
+[Model adapter](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) · [Live demo](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) · [Source code](https://github.com/omerfarooq223/gemma-claim-verification)
 
-</div>
+<p align="center">
+  <a href="docs/certificate.png">
+    <img src="docs/certificate.png" alt="First-place certificate for the Gemma Fine-Tuning Competition at AI Seekho Day 2026" width="820">
+  </a>
+</p>
 
----
+<p align="center"><em>First place in the Gemma Fine-Tuning Competition at AI Seekho Day 2026.</em></p>
 
-> [!IMPORTANT]
-> **🎉 CHAMPIONSHIP SOLUTION**: Built by **Muhammad Umar Farooq**, this system achieved **1st Place 🏆** in the official **AI Seekho Day 2026** competition. Starting from 1,000 noisy labeled examples, we engineered a 10-step semantic data audit pipeline, constructed a 935-example clean training dataset, synthesized 150 targeted contrastive trios, and fine-tuned **Gemma 4 12B** using **4-bit NF4 QLoRA**. 
->
-> On the official **500-example supervised event-day benchmark**, our frozen checkpoint achieved **94.40% Accuracy** (472/500), **94.38% Macro-F1**, and **0 invalid outputs**.
+## What it does
 
-<div align="center">
-  <img src="docs/certificate.png" alt="AI Seekho Day 2026 1st Place Certificate - Muhammad Umar Farooq" width="85%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
-  <p><em>Official 1st Place Certificate of Participation & Victory — AI Seekho Day 2026</em></p>
-</div>
+Give it a claim and one or more evidence passages. It returns one of three labels:
 
----
+| Label | Meaning |
+|---|---|
+| `SUPPORTS` | The evidence establishes the claim. |
+| `REFUTES` | The evidence contradicts the claim. |
+| `NOT_ENOUGH_INFO` | The evidence does not settle the claim either way. |
 
-## 📋 Table of Contents
-- [Problem Overview & Objective](#-problem-overview--objective)
-- [System Architecture](#-system-architecture)
-- [Key Benchmarks & Evaluation](#-key-benchmarks--evaluation)
-- [Data Engineering & Curriculum](#-data-engineering--curriculum)
-- [Training Recipe & QLoRA Configuration](#-training-recipe--qlora-configuration)
-- [Exact Prompt Formulation](#-exact-prompt-formulation)
-- [Installation & Setup](#-installation--setup)
-- [Quickstart & CLI Commands](#-quickstart--cli-commands)
-- [Hugging Face Model & Live Demo App](#-hugging-face-model--live-demo-app)
-- [Reproducibility & Cryptographic Hashes](#-reproducibility--cryptographic-hashes)
-- [Key Engineering Insights](#-key-engineering-insights)
-- [Repository Structure](#-repository-structure)
-- [License & Citation](#-license--citation)
-
----
-
-## 🎯 Problem Overview & Objective
-
-Given a natural language **CLAIM** and one or more supplied **EVIDENCE** passages, the system classifies the factual relationship into exactly one of three canonical labels:
-
-- **`SUPPORTS`**: The supplied evidence directly establishes the truth of the claim.
-- **`REFUTES`**: The supplied evidence directly contradicts the claim.
-- **`NOT_ENOUGH_INFO`**: The supplied evidence neither establishes nor contradicts the claim.
-
-### Strict Evidence-Only Grounding
-The model is supervised to reason **exclusively over the provided evidence passages**, ignoring prior parametric associations. This prevents hallucination and guarantees verifiable, evidence-grounded predictions.
-
----
-
-## 🏗️ System Architecture
-
-```
-                       Raw Train (1,000 examples)
-                                  │
-                                  ▼
-                   10-Step Audit & Semantic Cleaning
-                                  │
-                                  ▼
-                       Clean Real (935 examples)
-                                  │
-                                  ├────────────────────────┐
-                                  ▼                        ▼
-                       Failure-Driven Analysis    Audited Contrastive Trios
-                                  │                   (150 examples)
-                                  │                        │
-                                  └────────────┬───────────┘
-                                               ▼
-                                 Training Curriculum (1,085 examples)
-                                               │
-                                               ▼
-                                    Fresh Gemma 4 12B-it Base
-                                  ┌────────────────────────┐
-                                  │ 4-bit NF4 Quantization │
-                                  │ FP16 Compute Precision │
-                                  │ Fresh LoRA Rank r=8    │
-                                  │ Response-Only Loss     │
-                                  └────────────────────────┘
-                                               │
-                                               ▼
-                                   Frozen Selected Adapter
-                        (SHA-256: 76630ec4620ff7244f3b6c9ef0350...)
-                                               │
-                                               ▼
-                                   Deterministic Inference
-                             (Greedy do_sample=False, beams=1)
-                                               │
-                                               ▼
-                                  94.40% Accuracy / 94.38% F1
-                                  (Supervised Test500 Evaluation)
-```
-
----
-
-## 📊 Key Benchmarks & Evaluation
-
-### Official Benchmark Progression
-
-| Evaluation Split | Examples | Accuracy | Macro-F1 | Invalid Outputs | Notes |
-|---|:---:|:---:|:---:|:---:|---|
-| **Organizer Dev Validation** | 300 | **92.33%** (277/300) | **92.27%** | **0** | Primary development signal (balanced 100/class) |
-| **External Stress30** | 30 | **93.33%** (28/30) | **93.64%** | **0** | Out-of-distribution adversarial challenge |
-| **Blind120 Holdout** | 120 | **93.33%** (112/120) | **93.37%** | **0** | Independent blind evaluation |
-| **Event-Day Supervised Test500** | **500** | **94.40%** (472/500) | **94.38%** | **0** | **Official 1st Place Winning Benchmark 🏆** |
-
-### Detailed Performance Breakdown (Test500)
-
-| Class | Precision | Recall | F1-Score | Support |
-|---|:---:|:---:|:---:|:---:|
-| **`SUPPORTS`** | 86.39% | 98.80% | **92.18%** | 167 |
-| **`REFUTES`** | 99.30% | 84.43% | **91.26%** | 167 |
-| **`NOT_ENOUGH_INFO`** | 99.40% | 100.00% | **99.70%** | 166 |
-| **Macro Average** | **95.03%** | **94.41%** | **94.38%** | **500** |
-
-### Test500 Confusion Matrix
-
-$$\text{Rows = Ground Truth}, \quad \text{Columns = Model Prediction}$$
-
-```
-                SUPPORTS    REFUTES    NOT_ENOUGH_INFO
-SUPPORTS          165          1              1
-REFUTES            26        141              0
-NOT_ENOUGH_INFO     0          0            166
-```
-
-> [!NOTE]
-> **Error Analysis**: The primary remaining error pattern was $26 \text{ REFUTES} \rightarrow \text{SUPPORTS}$ misclassifications. While the system achieved $99.40\%$ precision on `REFUTES` and $100.00\%$ recall on `NOT_ENOUGH_INFO`, subtle numerical or scope contradictions with supportive phrasing occasionally biased predictions toward entailment.
-
----
-
-## 🧹 Data Engineering & Curriculum
-
-Data quality was prioritized over blind synthetic volume expansion:
-
-1. **10-Step Audit Pipeline**:
-   - Unicode NFKC normalization and whitespace collapse.
-   - Label alias normalization (`supports`, `refutes`, `NEI`, `SUPPORTED` $\rightarrow$ canonical forms).
-   - Intra-example passage deduplication and empty passage filtering.
-   - Elimination of 10 unusable/missing labels, 2 conflicting duplicate groups, and 53 exact duplicate rows.
-   - **Result**: 1,000 raw rows $\rightarrow$ **935 audited clean examples**.
-
-2. **Audited Contrastive Curriculum (150 Examples)**:
-   - Built 225 contrastive trios (same evidence with 3 claim variants generating `SUPPORTS`, `REFUTES`, and `NOT_ENOUGH_INFO`) focusing on numerical inversions, entity swapping, and partial evidence.
-   - **Phrase-Aware Auditor Verification**: Re-audited generated contrastive examples using a phrase-aware parser, achieving **60/60 agreement** on financial phrasing and validating the **225/225 semantic audit**.
-   - Partitioned into **150 training contrastive examples** + **75 frozen holdout examples**.
-
-$$\text{Final Training Curriculum} = 935\text{ Real Clean} + 150\text{ Audited Contrastive} = \mathbf{1,085\text{ Examples}}$$
-
----
-
-## ⚙️ Training Recipe & QLoRA Configuration
-
-| Hyperparameter | Value | Description |
-|---|---|---|
-| **Base Model** | `google/gemma-4-12B-it` | Google Gemma 4 12B instruction-tuned base |
-| **Quantization** | 4-bit NF4 (`bnb_4bit_use_double_quant=True`) | Frozen base weights |
-| **Compute Precision** | `torch.float16` | Forward/backward compute precision |
-| **LoRA Rank / Alpha** | $r = 8, \quad \alpha = 16$ | Low-rank adapter matrix dimension |
-| **LoRA Target Modules** | `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj` | Language layers |
-| **Trainable Parameters** | 32,784,384 | $\sim 0.27\%$ of base model parameters |
-| **Optimizer** | AdamW (`lr=2e-4`, `weight_decay=0.01`) | Adaptive gradient optimization |
-| **Batch Size** | Batch Size 1, Grad Accum 16 | **Effective Batch Size = 16** |
-| **Epochs & Steps** | 2 Epochs (68 steps/epoch) | **136 total optimizer steps** |
-| **Selected Adapter SHA-256** | `76630ec4620ff7244f3b6c9ef0350617939d33a5bc6f0e9c545816175b646d8e` | Winning checkpoint |
-
----
-
-## 📝 Exact Prompt Formulation
+For example:
 
 ```text
-Classify the claim using only the supplied evidence.
+Claim: The company's revenue declined in 2023.
+Evidence: Revenue rose from $1.2 billion in 2022 to $1.5 billion in 2023.
 
-SUPPORTS: the evidence establishes the claim.
-REFUTES: the evidence contradicts the claim.
-NOT_ENOUGH_INFO: the evidence neither establishes nor contradicts the specific claim.
-
-End your response exactly as:
-FINAL: SUPPORTS
-or
 FINAL: REFUTES
-or
-FINAL: NOT_ENOUGH_INFO
-
-Claim:
-<claim>
-
-Evidence:
-[1] <evidence passage 1>
-[2] <evidence passage 2>
 ```
 
----
+The model judges the evidence you provide. It does not search the web or check whether the source itself is reliable. Evidence-only prompting is part of the training setup, not a guarantee that every prediction is correct.
 
-## 💻 Installation & Setup
+## Results
+
+These are the recorded results for the selected competition checkpoint, not fresh evaluations of the hosted demo.
+
+| Evaluation set | Examples | Accuracy | Macro-F1 |
+|---|---:|---:|---:|
+| Organizer validation | 300 | 92.33% | 92.27% |
+| External stress set | 30 | 93.33% | 93.64% |
+| Blind holdout | 120 | 93.33% | 93.37% |
+| Event-day test | 500 | **94.40%** | **94.38%** |
+
+On the event-day test, 472 of 500 predictions were correct, with no invalid outputs. Most errors were contradictions classified as support: 26 examples with a true label of `REFUTES` were predicted as `SUPPORTS`.
+
+The [experiment history](docs/experiments.md) includes the other evaluation sets, earlier checkpoints, and the reproduction run.
+
+## Run it
+
+Use Python 3.10 or newer and an NVIDIA CUDA GPU for the documented 4-bit setup. The reference training environment used a T4 with 16 GB of VRAM. CPU-only and Apple Silicon inference are not validated here.
 
 ```bash
-# Clone the repository
 git clone https://github.com/omerfarooq223/gemma-claim-verification.git
 cd gemma-claim-verification
-
-# Create virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
-
-# Install dependencies in editable mode
-pip install -e .
-```
-
----
-
-## 🚀 Quickstart & CLI Commands
-
-### 1. Data Cleaning
-```bash
-python scripts/clean_training_data.py \
-    --input data/competition/train.jsonl \
-    --output data/derived/train_clean_935.jsonl
-```
-
-### 2. QLoRA Model Fine-Tuning
-```bash
-python scripts/train_qlora.py \
-    --config configs/final_train.yaml \
-    --train_clean data/derived/train_clean_935.jsonl \
-    --contrastive data/derived/d4_contrastive_train_v1.jsonl \
-    --output_dir checkpoints/final_adapter
-```
-
-### 3. Deterministic Inference
-```bash
-python scripts/predict.py \
-    --test data/examples/sample.jsonl \
-    --adapter checkpoints/final_adapter \
-    --config configs/final_inference.yaml \
-    --output outputs/submission.csv
-```
-
-### 4. Metric Evaluation & Verification
-```bash
-python scripts/evaluate.py \
-    --gold data/examples/sample.jsonl \
-    --predictions outputs/submission.csv \
-    --output_json outputs/metrics.json
-```
-
----
-
-## 🤗 Hugging Face Model & Live Demo App
-
-### Model Adapter Weights
-The fine-tuned QLoRA adapter is published on Hugging Face:
-- **Model Adapter**: [`omerfarooq223/gemma-4-12b-evidence-verification-qlora`](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
-- **Base Model**: `google/gemma-4-12B-it`
-
-```python
-from transformers import AutoProcessor, AutoModelForCausalLM, BitsAndBytesConfig
-from peft import PeftModel
-import torch
-
-# Load 4-bit NF4 Base Model
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_compute_dtype=torch.float16,
-)
-
-processor = AutoProcessor.from_pretrained("google/gemma-4-12B-it")
-base_model = AutoModelForCausalLM.from_pretrained(
-    "google/gemma-4-12B-it",
-    quantization_config=bnb_config,
-    device_map="auto",
-    torch_dtype=torch.float16,
-)
-
-# Load Winning LoRA Adapter
-model = PeftModel.from_pretrained(
-    base_model,
-    "omerfarooq223/gemma-4-12b-evidence-verification-qlora",
-)
-```
-
-### Interactive Web App (Gradio)
-Experience the model live on Hugging Face Spaces:
-- 🌐 **Live Interactive Demo**: [`https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier`](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier)
-
-To run locally:
-```bash
+pip install -e '.[app]'
 python app.py
 ```
-For complete deployment instructions to **Hugging Face Spaces**, see [HUGGINGFACE_GUIDE.md](HUGGINGFACE_GUIDE.md).
 
----
+Open `http://localhost:7860`. The first model load downloads the base weights and adapter, so it takes longer than later requests.
 
-## 🔒 Reproducibility & Cryptographic Hashes
+The published weights are a **LoRA adapter**, not a standalone model. The app loads both:
 
-| Artifact Key | File / Component | SHA-256 Checksum |
-|---|---|---|
-| `selected_final_adapter` | `adapter_model.safetensors` (Winning Checkpoint) | `76630ec4620ff7244f3b6c9ef0350617939d33a5bc6f0e9c545816175b646d8e` |
-| `d4_champion_adapter` | `adapter_model.safetensors` (D4 Finalist) | `03b134b92e46f44b3802bf563668436250078a2ffef175e35c0c3c5b5ccf42d7` |
-| `d1_champion_adapter` | `adapter_model.safetensors` (D1 Baseline) | `2c64a87e227e0638be9dc73e021f877f2536876ccf94cc116e04d60075164f8f` |
-| `final_submission_csv` | `submission.csv` (Official Test500 Predictions) | `d4df310da9eb95205daf6bc9ad1f8cc874f7afe5f6d432ce8373f0a9f88dd012` |
-| `clean_train935` | `train_clean_v3_semantic_recovered.jsonl` | `b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337` |
-| `contrastive_train150` | `d4_contrastive_train_v1.jsonl` | `17258cbc0e40f4ebd1cd4d583e3a331e59217d62cf4ff36741e8b1e3a7a98f41` |
+- Base: [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it)
+- Adapter: [`omerfarooq223/gemma-4-12b-evidence-verification-qlora`](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
 
-Verify checksums using the utility script:
+If Hugging Face requests authentication, run `hf auth login` locally. On Spaces, use an `HF_TOKEN` secret in the Space settings. See the [deployment guide](HUGGINGFACE_GUIDE.md) for the Space configuration and troubleshooting.
+
+### Predict from a file
+
+After installing the package, run:
+
 ```bash
-python scripts/verify_artifact.py outputs/submission.csv --key final_submission_csv
+python scripts/predict.py \
+  --test data/examples/sample.jsonl \
+  --adapter omerfarooq223/gemma-4-12b-evidence-verification-qlora \
+  --config configs/final_inference.yaml \
+  --output outputs/submission.csv
 ```
 
----
+You can also pass a local adapter directory to `--adapter`. Input is JSONL, with one record per line:
 
-## 💡 Key Engineering Insights
-
-1. **Data Quality Over Raw Volume**: Systematic cleaning and semantic auditing produced immediate gains that fine-tuning on noisy data could never achieve.
-2. **Targeted Contrastive Curriculum Beats Indiscriminate Expansion**: Adding 180 broad synthetic examples degraded validation accuracy by 2.8–3.4%, whereas 150 failure-driven contrastive trios boosted accuracy from 88.0% to 92.3%.
-3. **Model Scale + Prompt Discipline**: Upgrading from 2B to 12B parameters provided superior reasoning, but strict prompt structure and completion-only loss masking were essential to eliminate invalid outputs.
-4. **Validation Stability & Selection**: A subsequent reproduction run scored higher on dev validation (93.33%) but regressed on stress tests (86.67%). We retained the robust `76630...` adapter checkpoint.
-
----
-
-## 📂 Repository Structure
-
-```
-gemma-claim-verification/
-├── README.md                           # Master documentation & benchmark results
-├── LICENSE                             # Apache 2.0 License
-├── pyproject.toml                      # Package installation config
-├── requirements.txt                    # Project dependencies
-├── app.py                              # Gradio web application for HF Spaces
-├── HUGGINGFACE_GUIDE.md                # Deployment manual for Hugging Face
-├── DAILY_PUSH_GUIDE.md                 # 2-commit per day schedule guide
-├── configs/
-│   ├── final_train.yaml                # QLoRA fine-tuning hyperparameters
-│   └── final_inference.yaml            # Deterministic greedy decoding parameters
-├── src/
-│   └── gemma_claim_verification/
-│       ├── __init__.py
-│       ├── constants.py                # Enums, prompt templates, known SHA hashes
-│       ├── data.py                     # JSONL dataset loaders & PyTorch Dataset
-│       ├── cleaning.py                 # 10-step semantic data auditing pipeline
-│       ├── prompts.py                  # Prompt formatting & chat templates
-│       ├── modeling.py                 # 4-bit NF4 loading & PEFT LoRA configuration
-│       ├── training.py                 # Response-only loss trainer loop
-│       ├── inference.py                # Greedy deterministic prediction engine
-│       ├── evaluation.py               # Classification metrics & confusion matrix
-│       ├── submission.py               # Submission CSV generator & assertions
-│       └── hashing.py                  # Cryptographic SHA-256 verification
-├── scripts/
-│   ├── clean_training_data.py          # Data audit CLI script
-│   ├── train_qlora.py                  # Model training CLI script
-│   ├── predict.py                      # Test inference CLI script
-│   ├── evaluate.py                     # Metric evaluation CLI script
-│   ├── verify_artifact.py              # SHA-256 verification CLI script
-│   └── make_15_commits.sh              # 15 staged commits execution script
-├── docs/
-│   ├── certificate.png                 # AI Seekho Day 2026 1st Place Certificate
-│   ├── methodology.md                  # Detailed architectural report
-│   ├── experiments.md                  # Experimental progression across model runs
-│   ├── data_audit.md                   # Audit pipeline & contrastive curriculum design
-│   ├── reproducibility.md              # Hardware & determinism guide
-│   ├── model_card.md                   # Hugging Face model card documentation
-│   ├── project_archaeology.md          # Pre-hackathon archive & provenance report
-│   └── experiment_lineage.md           # Master experiment tracking table
-├── tests/
-│   ├── test_cleaning.py                # Cleaning & alias canonicalization tests
-│   ├── test_prompt.py                  # Prompt formatting tests
-│   ├── test_parser.py                  # Output parser tests
-│   └── test_submission.py              # Submission CSV assertion tests
-└── outputs/
-    └── .gitkeep                        # Output directory for predictions & CSVs
+```json
+{"id": "example-1", "claim": "Revenue declined in 2023.", "evidence": ["Revenue rose from $1.2B in 2022 to $1.5B in 2023."], "label": "REFUTES"}
 ```
 
----
+The `label` field is optional for prediction and required for evaluation. The included sample is a smoke test, not a benchmark.
 
-## 📄 License & Citation
-
-This project is released under the [Apache 2.0 License](LICENSE). Base model weights are subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).
-
-```bibtex
-@misc{farooq2026gemma4claimverification,
-  author = {Farooq, Muhammad Umar},
-  title = {Reliable Evidence-Based Claim Verification with Gemma 4 12B},
-  year = {2026},
-  publisher = {GitHub},
-  howpublished = {\url{https://github.com/omerfarooq223/gemma-claim-verification}}
-}
+```bash
+python scripts/evaluate.py \
+  --gold data/examples/sample.jsonl \
+  --predictions outputs/submission.csv \
+  --output_json outputs/metrics.json
 ```
+
+## How I trained it
+
+The main work was cleaning the data and targeting the mistakes the model kept making. The original training set had 1,000 rows; the audited set contained 935. I added 150 contrastive examples covering numerical changes, swapped entities, and incomplete evidence, bringing the final training set to **1,085 examples**.
+
+The contrastive pool contained 225 examples arranged in groups of three, with shared evidence and a different claim for each label. Of those examples, 150 went into training and 75 were held out.
+
+| Setting | Value |
+|---|---|
+| Base model | Gemma 4 12B instruction-tuned |
+| Quantization | 4-bit NF4, double quantization, FP16 compute |
+| LoRA | Rank 8, alpha 16, dropout 0.05 |
+| Target projections | `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj` |
+| Learning rate | `2e-4` |
+| Effective batch size | 16 |
+| Training | 2 epochs, 136 optimizer steps |
+| Loss | Assistant completion only: `FINAL: <LABEL>` |
+| Inference | Greedy decoding, thinking disabled, up to 24 new tokens |
+
+The final adapter was trained from a fresh base model. I kept that checkpoint after a later reproduction run improved validation accuracy but performed worse on the external stress set.
+
+For the full process, see the [data audit](docs/data_audit.md), [methodology](docs/methodology.md), and [final competition notebook](notebooks/final_competition_notebook.ipynb).
+
+### Retraining
+
+The competition data and audited contrastive files are not included in a fresh clone. Read [data/README.md](data/README.md) for the expected files. The cleaning script handles structural cleanup; reproducing the selected training set also requires the documented semantic audit and recovered data.
+
+Once those files are available:
+
+```bash
+python scripts/train_qlora.py \
+  --config configs/final_train.yaml \
+  --train_clean data/derived/train_clean_v3_semantic.jsonl \
+  --contrastive data/derived/d4_contrastive_train_v1.jsonl \
+  --output_dir checkpoints/final_adapter
+```
+
+Retraining is not guaranteed to produce identical weights. To reproduce the recorded checkpoint results, use the selected adapter and verify its checksum:
+
+```bash
+python scripts/verify_artifact.py \
+  checkpoints/final_adapter/adapter_model.safetensors \
+  --key selected_final_adapter
+```
+
+Expected SHA-256:
+
+```text
+76630ec4620ff7244f3b6c9ef0350617939d33a5bc6f0e9c545816175b646d8e
+```
+
+Additional hashes and environment details are in the [reproducibility guide](docs/reproducibility.md).
+
+## Repository guide
+
+| Path | Contents |
+|---|---|
+| `app.py` | Gradio demo for local use and Hugging Face Spaces |
+| `src/gemma_claim_verification/` | Data cleaning, prompts, model loading, training, inference, and evaluation |
+| `scripts/` | Command-line entry points |
+| `configs/` | Training and inference settings |
+| `tests/` | Tests for data processing and inference behavior |
+| `notebooks/` | Final competition run and development history |
+| `docs/` | Methodology, experiments, model card, and provenance |
+| `data/` | Sample records and instructions for the competition files |
+
+Run the tests without downloading model weights:
+
+```bash
+PYTHONPATH=src python -m unittest discover -s tests -v
+```
+
+## Author and license
+
+Built by [Muhammad Umar Farooq](https://github.com/omerfarooq223).
+
+The repository is licensed under [Apache 2.0](LICENSE). Refer to the [base model card](https://huggingface.co/google/gemma-4-12B-it) for the base model's terms and documentation.
