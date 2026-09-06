@@ -17,7 +17,7 @@ from gemma_claim_verification.submission import create_submission_file
 def main():
     parser = argparse.ArgumentParser(description="Run deterministic claim verification inference.")
     parser.add_argument("--test", "-t", required=True, help="Path to test JSONL file.")
-    parser.add_argument("--adapter", "-a", required=True, help="Path to fine-tuned LoRA adapter directory.")
+    parser.add_argument("--adapter", "-a", required=True, help="Local LoRA adapter directory or Hugging Face model ID.")
     parser.add_argument("--config", "-c", default="configs/final_inference.yaml", help="Path to inference YAML config.")
     parser.add_argument("--output", "-o", default="outputs/submission.csv", help="Path to save submission CSV.")
     args = parser.parse_args()

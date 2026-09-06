@@ -57,7 +57,7 @@ General factual QA without evidence passages. The model is calibrated strictly t
 
 - **Bounded Context**: Prompts and evidence passages must fit within 256 tokens.
 - **Evidence-Only Scope**: The model does not query external knowledge bases or search the web; it evaluates factual claims strictly grounded in the supplied context.
-- **Error Pattern Analysis**: Achieved 99.40% precision on `REFUTES` and 100% recall on `NOT_ENOUGH_INFO`. Subtle numerical or scope contradictions with supportive phrasing can occasionally be mispredicted as `SUPPORTS`.
+- **Error Pattern Analysis**: Achieved 99.30% precision on `REFUTES` and 100% recall on `NOT_ENOUGH_INFO`. Subtle numerical or scope contradictions with supportive phrasing can occasionally be mispredicted as `SUPPORTS`.
 
 ---
 
@@ -65,7 +65,7 @@ General factual QA without evidence passages. The model is calibrated strictly t
 
 ```python
 import torch
-from transformers import AutoProcessor, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoProcessor, Gemma4UnifiedForConditionalGeneration, BitsAndBytesConfig
 from peft import PeftModel
 
 # 1. Load 4-bit NF4 quantized base model
@@ -77,7 +77,7 @@ bnb_config = BitsAndBytesConfig(
 )
 
 processor = AutoProcessor.from_pretrained("google/gemma-4-12B-it")
-base_model = AutoModelForCausalLM.from_pretrained(
+base_model = Gemma4UnifiedForConditionalGeneration.from_pretrained(
     "google/gemma-4-12B-it",
     quantization_config=bnb_config,
     device_map="auto",
@@ -97,7 +97,7 @@ model = PeftModel.from_pretrained(
 
 ### Training Data
 - **Audited Clean Base**: 935 semantically audited examples (cleaned from 1,000 raw noisy rows via a 10-step audit pipeline).
-- **Audited Contrastive Curriculum**: 150 failure-driven contrastive trios.
+- **Audited Contrastive Curriculum**: 150 contrastive examples arranged in trios.
 - **Total Training Dataset**: 1,085 curated examples.
 
 ### Training Hyperparameters

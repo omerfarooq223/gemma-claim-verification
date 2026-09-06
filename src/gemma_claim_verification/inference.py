@@ -79,6 +79,11 @@ def predict_single(
         add_special_tokens=False,
     ).to(device)
 
+    tokenizer = getattr(processor, "tokenizer", processor)
+    pad_token_id = tokenizer.pad_token_id
+    if pad_token_id is None:
+        pad_token_id = tokenizer.eos_token_id
+
     model.eval()
     with torch.no_grad():
         generated_ids = model.generate(
@@ -86,13 +91,13 @@ def predict_single(
             max_new_tokens=max_new_tokens,
             do_sample=False,
             num_beams=1,
-            pad_token_id=processor.tokenizer.pad_token_id or processor.tokenizer.eos_token_id,
+            pad_token_id=pad_token_id,
         )
 
     # Slice only the newly generated tokens
     prompt_len = inputs.input_ids.shape[1]
     new_tokens = generated_ids[0, prompt_len:]
-    raw_output = processor.tokenizer.decode(new_tokens, skip_special_tokens=True)
+    raw_output = tokenizer.decode(new_tokens, skip_special_tokens=True)
 
     pred_label, is_valid = parse_model_prediction(raw_output)
 

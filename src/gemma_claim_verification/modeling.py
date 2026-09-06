@@ -1,7 +1,6 @@
 """Model loading, 4-bit NF4 quantization, and LoRA adapter integration."""
 
-import os
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 from .constants import DEFAULT_BASE_MODEL, TARGET_MODULES
 
 try:
@@ -48,13 +47,9 @@ def load_base_model_and_processor(
         trust_remote_code=True,
     )
 
-    # Attempt to load specialized Gemma 4 class if available, else standard CausalLM
-    try:
-        from transformers import Gemma4UnifiedForConditionalGeneration
-        model_cls = Gemma4UnifiedForConditionalGeneration
-    except (ImportError, AttributeError):
-        from transformers import AutoModelForCausalLM
-        model_cls = AutoModelForCausalLM
+    # Keep the multimodal wrapper: the saved adapter targets model.language_model.
+    from transformers import Gemma4UnifiedForConditionalGeneration
+    model_cls = Gemma4UnifiedForConditionalGeneration
 
     model = model_cls.from_pretrained(
         model_name_or_path,
@@ -99,9 +94,6 @@ def load_adapter(
     is_trainable: bool = False,
 ) -> Any:
     """Attach frozen or fine-tuned LoRA adapter to base model."""
-    if not os.path.exists(adapter_path):
-        raise FileNotFoundError(f"Adapter path does not exist: {adapter_path}")
-
     model = PeftModel.from_pretrained(
         base_model,
         adapter_path,
