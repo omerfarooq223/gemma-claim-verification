@@ -32,8 +32,10 @@ language:
 
 ### Model Sources
 
-- **Repository**: [https://github.com/omerfarooq223/gemma-claim-verification](https://github.com/omerfarooq223/gemma-claim-verification)
-- **Demo Space**: [https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier)
+- **Base Model**: [https://huggingface.co/google/gemma-4-12B-it](https://huggingface.co/google/gemma-4-12B-it)
+- **Model Adapter**: [https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
+- **Live Demo**: [https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier)
+- **Source Code**: [https://github.com/omerfarooq223/gemma-claim-verification](https://github.com/omerfarooq223/gemma-claim-verification)
 
 ---
 

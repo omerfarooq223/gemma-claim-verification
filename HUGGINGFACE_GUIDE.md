@@ -1,6 +1,6 @@
 # Run the demo on Hugging Face Spaces
 
-The [model repository](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) contains the LoRA adapter. The [Space](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) runs `app.py` and downloads the base model and adapter separately.
+This guide covers deploying the interactive claim verification app on Hugging Face Spaces. The [Live Demo](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) loads the [Base Model](https://huggingface.co/google/gemma-4-12B-it) and attaches the [Model Adapter](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) from the [Source Repository](https://github.com/omerfarooq223/gemma-claim-verification).
 
 ## Space files
 

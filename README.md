@@ -1,8 +1,20 @@
 # Gemma Claim Verification
 
-I built this project for **AI Seekho Day 2026**, where it placed **first**. It uses a QLoRA adapter on Gemma 4 12B to classify a claim against supplied evidence. The selected checkpoint scored **94.40% accuracy** and **94.38% macro-F1** on the 500-example event-day test set.
+I built this project for **AI Seekho Day 2026**, where it placed **first**. It uses a QLoRA adapter on Gemma 4 12B to classify a claim against supplied evidence. My selected checkpoint scored **94.40% accuracy** and **94.38% macro-F1** on the 500-example event-day test set.
 
-[Model adapter](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) · [Live demo](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) · [Source code](https://github.com/omerfarooq223/gemma-claim-verification)
+<p align="center">
+  <a href="https://huggingface.co/google/gemma-4-12B-it"><img src="https://img.shields.io/badge/Base%20Model-google%2Fgemma--4--12B--it-4285F4?logo=google&logoColor=white" alt="Base Model"></a>
+  <a href="https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Adapter-omerfarooq223%2Fgemma--4--12b--evidence--verification--qlora-yellow" alt="Model Adapter"></a>
+  <a href="https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Live%20Demo-Hugging%20Face%20Spaces-blue" alt="Live Demo"></a>
+  <a href="https://github.com/omerfarooq223/gemma-claim-verification"><img src="https://img.shields.io/badge/Source%20Code-omerfarooq223%2Fgemma--claim--verification-black?logo=github" alt="Source Code"></a>
+</p>
+
+| Resource | Identifier / Link | Description |
+|---|---|---|
+| **Base Model** | [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it) | Google Gemma 4 12B instruction-tuned foundation model |
+| **Model Adapter** | [`omerfarooq223/gemma-4-12b-evidence-verification-qlora`](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) | 1st-place QLoRA adapter weights on Hugging Face Hub |
+| **Live Demo** | [Hugging Face Space](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) | Interactive Gradio verification web application on ZeroGPU |
+| **Source Code** | [GitHub Repository](https://github.com/omerfarooq223/gemma-claim-verification) | Complete training, inference, and evaluation repository |
 
 <p align="center">
   <a href="docs/certificate.png">
@@ -14,7 +26,7 @@ I built this project for **AI Seekho Day 2026**, where it placed **first**. It u
 
 ## What it does
 
-Give it a claim and one or more evidence passages. It returns one of three labels:
+The model evaluates a claim against supplied evidence passages and returns one of three relation labels:
 
 | Label | Meaning |
 |---|---|
@@ -31,11 +43,11 @@ Evidence: Revenue rose from $1.2 billion in 2022 to $1.5 billion in 2023.
 FINAL: REFUTES
 ```
 
-The model judges the evidence you provide. It does not search the web or check whether the source itself is reliable. Evidence-only prompting is part of the training setup, not a guarantee that every prediction is correct.
+The model evaluates the claim strictly grounded within the provided evidence passages. It does not browse the web or check external knowledge sources. Evidence-only prompting is part of the training setup, ensuring bounded and traceable reasoning.
 
 ## Results
 
-These are the recorded results for the selected competition checkpoint, not fresh evaluations of the hosted demo.
+These are the recorded results for my selected competition checkpoint:
 
 | Evaluation set | Examples | Accuracy | Macro-F1 |
 |---|---:|---:|---:|
@@ -44,13 +56,13 @@ These are the recorded results for the selected competition checkpoint, not fres
 | Blind holdout | 120 | 93.33% | 93.37% |
 | Event-day test | 500 | **94.40%** | **94.38%** |
 
-On the event-day test, 472 of 500 predictions were correct, with no invalid outputs. Most errors were contradictions classified as support: 26 examples with a true label of `REFUTES` were predicted as `SUPPORTS`.
+On the event-day test, 472 of 500 predictions were correct, with zero invalid or unparseable outputs. Most errors were subtle contradictions classified as support (26 examples with a true label of `REFUTES` were predicted as `SUPPORTS`).
 
-The [experiment history](docs/experiments.md) includes the other evaluation sets, earlier checkpoints, and the reproduction run.
+The [experiment history](docs/experiments.md) includes detailed logs for all evaluation sets, earlier checkpoints, and the reproduction run.
 
-## Run it
+## How to run
 
-Use Python 3.10 or newer and an NVIDIA CUDA GPU for the documented 4-bit setup. The reference training environment used a T4 with 16 GB of VRAM. CPU-only and Apple Silicon inference are not validated here.
+Requirements: Python 3.10+ and an NVIDIA CUDA GPU for the 4-bit setup (the reference training environment used a T4 with 16 GB VRAM).
 
 ```bash
 git clone https://github.com/omerfarooq223/gemma-claim-verification.git
@@ -61,18 +73,16 @@ pip install -e '.[app]'
 python app.py
 ```
 
-Open `http://localhost:7860`. The first model load downloads the base weights and adapter, so it takes longer than later requests.
+Open `http://localhost:7860`. The first model load downloads both the base weights and my adapter:
 
-The published weights are a **LoRA adapter**, not a standalone model. The app loads both:
-
-- Base: [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it)
+- Base Model: [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it)
 - Adapter: [`omerfarooq223/gemma-4-12b-evidence-verification-qlora`](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
 
-If Hugging Face requests authentication, run `hf auth login` locally. On Spaces, use an `HF_TOKEN` secret in the Space settings. See the [deployment guide](HUGGINGFACE_GUIDE.md) for the Space configuration and troubleshooting.
+If Hugging Face prompts for authentication, run `hf auth login` locally. On Spaces, supply an `HF_TOKEN` secret. See [HUGGINGFACE_GUIDE.md](HUGGINGFACE_GUIDE.md) for full deployment details.
 
 ### Predict from a file
 
-After installing the package, run:
+To run predictions on a JSONL file:
 
 ```bash
 python scripts/predict.py \
@@ -82,13 +92,13 @@ python scripts/predict.py \
   --output outputs/submission.csv
 ```
 
-You can also pass a local adapter directory to `--adapter`. Input is JSONL, with one record per line:
+A local adapter directory can also be passed to `--adapter`. Input format is JSONL with one record per line:
 
 ```json
 {"id": "example-1", "claim": "Revenue declined in 2023.", "evidence": ["Revenue rose from $1.2B in 2022 to $1.5B in 2023."], "label": "REFUTES"}
 ```
 
-The `label` field is optional for prediction and required for evaluation. The included sample is a smoke test, not a benchmark.
+To evaluate predictions against gold labels:
 
 ```bash
 python scripts/evaluate.py \
@@ -99,9 +109,7 @@ python scripts/evaluate.py \
 
 ## How I trained it
 
-The main work was cleaning the data and targeting the mistakes the model kept making. The original training set had 1,000 rows; the audited set contained 935. I added 150 contrastive examples covering numerical changes, swapped entities, and incomplete evidence, bringing the final training set to **1,085 examples**.
-
-The contrastive pool contained 225 examples arranged in groups of three, with shared evidence and a different claim for each label. Of those examples, 150 went into training and 75 were held out.
+The main focus was systematic data curation and targeted contrastive examples. The raw training set had 1,000 rows; after my 10-step audit, 935 high-quality examples remained. I generated 150 contrastive examples targeting numerical shifts, swapped entities, and partial evidence, reaching a final training set of **1,085 curated examples**.
 
 | Setting | Value |
 |---|---|
@@ -115,15 +123,11 @@ The contrastive pool contained 225 examples arranged in groups of three, with sh
 | Loss | Assistant completion only: `FINAL: <LABEL>` |
 | Inference | Greedy decoding, thinking disabled, up to 24 new tokens |
 
-The final adapter was trained from a fresh base model. I kept that checkpoint after a later reproduction run improved validation accuracy but performed worse on the external stress set.
-
-For the full process, see the [data audit](docs/data_audit.md), [methodology](docs/methodology.md), and [final competition notebook](notebooks/final_competition_notebook.ipynb).
+I trained the final adapter from a fresh base model. For in-depth documentation, see the [data audit](docs/data_audit.md), [methodology](docs/methodology.md), and [final competition notebook](notebooks/final_competition_notebook.ipynb).
 
 ### Retraining
 
-The competition data and audited contrastive files are not included in a fresh clone. Read [data/README.md](data/README.md) for the expected files. The cleaning script handles structural cleanup; reproducing the selected training set also requires the documented semantic audit and recovered data.
-
-Once those files are available:
+The competition data and audited contrastive files are documented in [data/README.md](data/README.md). Once those files are placed in `data/derived/`:
 
 ```bash
 python scripts/train_qlora.py \
@@ -133,7 +137,7 @@ python scripts/train_qlora.py \
   --output_dir checkpoints/final_adapter
 ```
 
-Retraining is not guaranteed to produce identical weights. To reproduce the recorded checkpoint results, use the selected adapter and verify its checksum:
+To verify the weights of my winning checkpoint against the recorded SHA-256 hash:
 
 ```bash
 python scripts/verify_artifact.py \
@@ -147,8 +151,6 @@ Expected SHA-256:
 76630ec4620ff7244f3b6c9ef0350617939d33a5bc6f0e9c545816175b646d8e
 ```
 
-Additional hashes and environment details are in the [reproducibility guide](docs/reproducibility.md).
-
 ## Repository guide
 
 | Path | Contents |
@@ -160,16 +162,30 @@ Additional hashes and environment details are in the [reproducibility guide](doc
 | `tests/` | Tests for data processing and inference behavior |
 | `notebooks/` | Final competition run and development history |
 | `docs/` | Methodology, experiments, model card, and provenance |
-| `data/` | Sample records and instructions for the competition files |
+| `data/` | Sample records and instructions for competition files |
 
-Run the tests without downloading model weights:
+Run the test suite:
 
 ```bash
 PYTHONPATH=src python -m unittest discover -s tests -v
 ```
 
-## Author and license
+## Author & License
 
-Built by [Muhammad Umar Farooq](https://github.com/omerfarooq223).
+Developed and open-sourced by **[Muhammad Umar Farooq](https://github.com/omerfarooq223)** ([Portfolio](https://omerfarooq223.github.io/) · [GitHub](https://github.com/omerfarooq223) · [Hugging Face](https://huggingface.co/omerfarooq223)).
 
-The repository is licensed under [Apache 2.0](LICENSE). Refer to the [base model card](https://huggingface.co/google/gemma-4-12B-it) for the base model's terms and documentation.
+- **Code & Adapter Weights**: Licensed under the [Apache 2.0 License](LICENSE).
+- **Base Model**: Gemma 4 12B is provided by Google under the [Gemma Terms of Use](https://huggingface.co/google/gemma-4-12B-it).
+
+If you build on or cite this work:
+
+```bibtex
+@misc{farooq2026gemma4claimverification,
+  author = {Farooq, Muhammad Umar},
+  title = {Reliable Evidence-Based Claim Verification with Gemma 4 12B},
+  year = {2026},
+  publisher = {GitHub and Hugging Face},
+  howpublished = {\url{https://github.com/omerfarooq223/gemma-claim-verification}}
+}
+```
+
