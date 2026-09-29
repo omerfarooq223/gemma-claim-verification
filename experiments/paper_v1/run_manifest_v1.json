@@ -1,0 +1,285 @@
+{
+  "code": {
+    "branch": "feature/fixed-budget-training",
+    "git_commit": "45034cb61c3f47efd3cbcb791aa8b7caba620eee"
+  },
+  "conditions": [
+    "REAL",
+    "REPEAT",
+    "LEGACY",
+    "TARGETED"
+  ],
+  "dataset_hashes": {
+    "LEGACY": {
+      "augmentation_sha256": "9ad6ac28a86b5905e38c777ff9515fce4374a3a7185fb2e792bcb29fe2073951",
+      "real_sha256": "b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337"
+    },
+    "REAL": {
+      "augmentation_sha256": null,
+      "real_sha256": "b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337"
+    },
+    "REPEAT": {
+      "augmentation_sha256": "2bf63aba03eb41fcc0ecc427ad4aa21ef480aea1adabea4aab0ab596e9ff51c7",
+      "real_sha256": "b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337"
+    },
+    "TARGETED": {
+      "augmentation_sha256": "17258cbc0e40f4ebd1cd4d583e3a331e59217d62cf4ff36741e8b1e3a7a98f41",
+      "real_sha256": "b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337"
+    }
+  },
+  "environment": {
+    "accelerate": "1.15.0",
+    "available_gpus": [
+      "Tesla T4",
+      "Tesla T4"
+    ],
+    "bitsandbytes": "0.50.1",
+    "cuda_runtime": "12.8",
+    "huggingface_hub": "1.33.0",
+    "peft": "0.19.1",
+    "python": "3.12.13",
+    "torch": "2.8.0",
+    "torchvision": "0.23.0",
+    "transformers": "5.10.1"
+  },
+  "evaluation_guardrail": {
+    "primary_test": "Organizer Test500",
+    "test500_gold_status": "SEALED",
+    "test500_input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+    "unseal_rule": "Only after all 12 models are trained and all 12 Test500 prediction files are SHA-256 frozen."
+  },
+  "manifest_version": "paper_v1_runs_v1",
+  "model": {
+    "device_policy": "single GPU: CUDA device 0",
+    "id": "google/gemma-4-12B-it",
+    "quantization": "4-bit NF4",
+    "revision": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7"
+  },
+  "planned_runs": 12,
+  "protocol_artifacts": {
+    "evaluation_amendment_001_sha256": "12796f7486aa4f8e9e538f87d512abcf4b1065055cf36f0c3a9d06a3f7c85531",
+    "experiment_protocol_v1_sha256": "dc2b17ccf5edf6e8d59a742da3dd2df1a42459f3ee7ad777cae2ee5dcd86dbc5"
+  },
+  "run_order_method": "Ascending SHA256 of 'paper-v1-primary-run-order|CONDITION|SEED'",
+  "runs": [
+    {
+      "augmentation_data": null,
+      "condition": "REAL",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/real_seed42/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "01099bb21022a2e81952c40eba7981a05a7862e9e9cf7c71cb9045afef177a26",
+      "output_dir": "/kaggle/working/paper_v1/runs/real_seed42/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "real_seed42",
+      "run_order": 1,
+      "seed": 42,
+      "status": "PLANNED",
+      "training_rows": 935
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/legacy150.jsonl",
+      "condition": "LEGACY",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/legacy_seed43/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "070e34f07fd9a84d416b144bceac6ea1ba04266ce1f4d228d2fda8812e307629",
+      "output_dir": "/kaggle/working/paper_v1/runs/legacy_seed43/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "legacy_seed43",
+      "run_order": 2,
+      "seed": 43,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": null,
+      "condition": "REAL",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/real_seed43/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "1ee87027fbe8adfc4eb3554f3b0e54735e3f4e4a6c2dfe93c9061ab42ae76a1c",
+      "output_dir": "/kaggle/working/paper_v1/runs/real_seed43/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "real_seed43",
+      "run_order": 3,
+      "seed": 43,
+      "status": "PLANNED",
+      "training_rows": 935
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/legacy150.jsonl",
+      "condition": "LEGACY",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/legacy_seed42/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "6f975adde8755ca43bc6e4eaa5a20e89cf598ddf4fafe6322820bb8501cd2f47",
+      "output_dir": "/kaggle/working/paper_v1/runs/legacy_seed42/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "legacy_seed42",
+      "run_order": 4,
+      "seed": 42,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/targeted150.jsonl",
+      "condition": "TARGETED",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/targeted_seed42/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "7ca99b812388c63c621fbaae79ccb7401707a97a7c98dd988f1c1fcda7ad2e23",
+      "output_dir": "/kaggle/working/paper_v1/runs/targeted_seed42/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "targeted_seed42",
+      "run_order": 5,
+      "seed": 42,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/targeted150.jsonl",
+      "condition": "TARGETED",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/targeted_seed43/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "834008ed60748e3a78a05e2506a665434eecba786be93eba067e58b8b91c4cc5",
+      "output_dir": "/kaggle/working/paper_v1/runs/targeted_seed43/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "targeted_seed43",
+      "run_order": 6,
+      "seed": 43,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/legacy150.jsonl",
+      "condition": "LEGACY",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/legacy_seed44/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "8de500adc6fd9183c83fde58a122c25604df1823dfb36c55cbcd51d88cf47185",
+      "output_dir": "/kaggle/working/paper_v1/runs/legacy_seed44/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "legacy_seed44",
+      "run_order": 7,
+      "seed": 44,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": null,
+      "condition": "REAL",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/real_seed44/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "9ce8fc22311d400f530ff8229a9c72283a8eb51441c21a24a1b05cf14b9ebfc3",
+      "output_dir": "/kaggle/working/paper_v1/runs/real_seed44/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "real_seed44",
+      "run_order": 8,
+      "seed": 44,
+      "status": "PLANNED",
+      "training_rows": 935
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/repeat150.jsonl",
+      "condition": "REPEAT",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/repeat_seed44/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "bc6583434e2a96fac0c625c705deedb8dd8391af43605e01b3bf1fcfe86a669f",
+      "output_dir": "/kaggle/working/paper_v1/runs/repeat_seed44/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "repeat_seed44",
+      "run_order": 9,
+      "seed": 44,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/repeat150.jsonl",
+      "condition": "REPEAT",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/repeat_seed42/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "c79fc1d5a097f192ecc228b92ec920165244d7a159b579da6ce83b1a91018d63",
+      "output_dir": "/kaggle/working/paper_v1/runs/repeat_seed42/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "repeat_seed42",
+      "run_order": 10,
+      "seed": 42,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/targeted150.jsonl",
+      "condition": "TARGETED",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/targeted_seed44/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "e4636cd2390ceaa46ddbfe0bc509aaa43960ba374a47bb558f27762cc62f949f",
+      "output_dir": "/kaggle/working/paper_v1/runs/targeted_seed44/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "targeted_seed44",
+      "run_order": 11,
+      "seed": 44,
+      "status": "PLANNED",
+      "training_rows": 1085
+    },
+    {
+      "augmentation_data": "/kaggle/working/paper_v1/data/repeat150.jsonl",
+      "condition": "REPEAT",
+      "example_exposures": 2176,
+      "gradient_accumulation_steps": 16,
+      "log_file": "/kaggle/working/paper_v1/runs/repeat_seed43/train.log",
+      "micro_batches": 2176,
+      "optimizer_steps": 136,
+      "order_rank_sha256": "f52af43823a0876a9dfbe6178b17b9a6299bbcb9bbc2914990f58b673b94fdb6",
+      "output_dir": "/kaggle/working/paper_v1/runs/repeat_seed43/adapter",
+      "real_data": "/kaggle/working/paper_v1/data/real935.jsonl",
+      "run_id": "repeat_seed43",
+      "run_order": 12,
+      "seed": 43,
+      "status": "PLANNED",
+      "training_rows": 1085
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "training_config": {
+    "batch_size": 1,
+    "checkpoint_policy": "final optimizer step only",
+    "example_exposures_per_run": 2176,
+    "gradient_accumulation_steps": 16,
+    "max_optimizer_steps": 136,
+    "micro_batches_per_run": 2176,
+    "path": "/kaggle/working/gemma-claim-verification/configs/paper_equal_compute.yaml",
+    "sha256": "417d9d56e8bdb09aa38b1cd98128516b33946047b2b25a838d80f3ef0ad9cd45"
+  }
+}
