@@ -1,0 +1,54 @@
+{
+  "amendment_id": "paper_v1_amendment_001",
+  "created_before_primary_training_runs": true,
+  "original_protocol_commit": "af2095374961bf5ae5f5e09da1cf02495e57c3fc",
+  "planned_primary_models": 12,
+  "primary_evaluation": {
+    "gold_policy": "Gold labels must remain sealed until all 12 primary models have completed training and all 12 Test500 prediction files have been generated and cryptographically frozen.",
+    "input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+    "model_selection_policy": "No checkpoint or condition selection may use Test500 labels. All runs use the fixed final optimizer step.",
+    "name": "Organizer Test500",
+    "prediction_freeze_policy": "Each Test500 prediction file must be SHA-256 hashed before any gold labels are opened or scoring is performed.",
+    "role": "Primary blind external evaluation for comparison of REAL, REPEAT, LEGACY, and TARGETED conditions.",
+    "rows": 500,
+    "terminology_policy": "The paper will describe Test500 as a prospectively sealed organizer blind test, not as a newly collected untouched set."
+  },
+  "primary_metrics": [
+    "macro_f1",
+    "accuracy"
+  ],
+  "primary_training_runs_completed_at_amendment": 0,
+  "reason": "Evaluation asset inventory found no separate newly collected untouched test set. To avoid post-result benchmark construction, the existing organizer Test500 is prospectively sealed as the primary blind external evaluation.",
+  "secondary_evaluations": {
+    "d4_holdout75": {
+      "role": "secondary historical targeted stress diagnostic",
+      "sha256": "61f41a537f738ecd153474565c1e22bb678c4f8a9dd096ed9eabfe5bddc2e1b2"
+    },
+    "external30": {
+      "role": "secondary historical external stress diagnostic",
+      "sha256": "05624200845a79228ac4e05540b013ea0836d049802fcd3f9dcc60ada8aecedc"
+    },
+    "validation300": {
+      "role": "development/reporting diagnostic",
+      "sha256": "722a5f111693996369a02d26eda08f00cdfb51f5b8b842addb752814f03716c9"
+    }
+  },
+  "secondary_metrics": [
+    "per_class_precision",
+    "per_class_recall",
+    "per_class_f1",
+    "confusion_matrix"
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "topic": "primary evaluation set",
+  "training_conditions": [
+    "REAL",
+    "REPEAT",
+    "LEGACY",
+    "TARGETED"
+  ]
+}
