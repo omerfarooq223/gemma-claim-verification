@@ -1,0 +1,37 @@
+{
+  "artifacts": {
+    "adapter_model_sha256": "d893e9c1c2ef5db9be8435ec0c6d5cc1a00a0bcce6567996c494f220d332ea7b",
+    "run_record_sha256": "f0f781c7050629bdb40f910b8e2608503b67f283e4c44b1fda86b48c31f52177",
+    "training_log_sha256": "eb38d5d626a01504dfb543f4853733047d6253f3ee7a6f9db5640fb59035dae0"
+  },
+  "compute": {
+    "elapsed_minutes": 58.01,
+    "example_exposures": 2176,
+    "micro_batches": 2176,
+    "optimizer_steps": 136
+  },
+  "condition": "REAL",
+  "evaluation": {
+    "evaluation_performed": false,
+    "test500_gold_status": "SEALED"
+  },
+  "external_backup": {
+    "contains_adapter": true,
+    "contains_frozen_protocol_metadata": true,
+    "contains_run_record": true,
+    "contains_training_log": true,
+    "filename": "real_seed42_primary_run.tar.gz",
+    "sha256": "f585b56cf75deb09a4e452d7061bfbb7c84a4cc5f8017a5a90710ea035015c20",
+    "size_bytes": 125933887
+  },
+  "frozen_context": {
+    "code_freeze_commit": "45034cb61c3f47efd3cbcb791aa8b7caba620eee",
+    "manifest_commit": "bbaa9e877583b677ed6b7546a3092c4d1423dfb0",
+    "manifest_sha256": "b3f9bc2d754a859235e1b4c72f9600ef9ec615c39c969d0e72a450e2f1f59d9a"
+  },
+  "run_id": "real_seed42",
+  "run_order": 1,
+  "schema": "primary_run_provenance_v1",
+  "seed": 42,
+  "training_status": "COMPLETE"
+}
