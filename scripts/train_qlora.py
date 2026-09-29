@@ -19,6 +19,7 @@ def main():
     parser.add_argument("--train_clean", required=True, help="Path to audited clean real dataset JSONL (e.g. 935 rows).")
     parser.add_argument("--contrastive", default=None, help="Optional path to audited contrastive dataset JSONL (e.g. 150 rows).")
     parser.add_argument("--output_dir", "-o", default="checkpoints/final_adapter", help="Directory to save trained LoRA adapter.")
+    parser.add_argument("--seed", type=int, default=None, help="Optional seed override for controlled multi-seed experiments.")
     args = parser.parse_args()
 
     # Load configuration
@@ -54,18 +55,22 @@ def main():
     )
 
     t_cfg = cfg["training"]
+    run_seed = args.seed if args.seed is not None else t_cfg.get("seed", 42)
+    print(f"Training seed: {run_seed}")
+
     train_qlora(
         model=model,
         processor=processor,
         train_records=train_records,
         output_dir=args.output_dir,
         epochs=t_cfg.get("epochs", 2),
+        max_optimizer_steps=t_cfg.get("max_optimizer_steps"),
         batch_size=t_cfg.get("batch_size", 1),
         gradient_accumulation_steps=t_cfg.get("gradient_accumulation_steps", 16),
         learning_rate=float(t_cfg.get("learning_rate", 2e-4)),
         weight_decay=float(t_cfg.get("weight_decay", 0.01)),
         warmup_ratio=float(t_cfg.get("warmup_ratio", 0.05)),
-        seed=t_cfg.get("seed", 42),
+        seed=run_seed,
         max_length=max_length,
     )
 

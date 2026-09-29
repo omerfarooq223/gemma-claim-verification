@@ -1,0 +1,69 @@
+{
+  "protocol_version": "paper_v1",
+  "git_commit_at_freeze": "a8c058b9edae078831e3873fe6fec3945478d8cf",
+  "research_question": "Under an equal compute budget, does failure-targeted, semantically audited three-way contrastive augmentation improve low-resource claim verification more reliably than legacy synthetic augmentation or repeated real-data exposure?",
+  "base_model": "google/gemma-4-12B-it",
+  "conditions": {
+    "REAL": {
+      "real935": "data/derived/train_clean_v3_semantic.jsonl",
+      "augmentation": null,
+      "training_rows": 935
+    },
+    "REPEAT": {
+      "real935": "data/derived/train_clean_v3_semantic.jsonl",
+      "augmentation": "data/derived/repeat_real_150_v1.jsonl",
+      "training_rows": 1085
+    },
+    "LEGACY": {
+      "real935": "data/derived/train_clean_v3_semantic.jsonl",
+      "augmentation": "data/derived/legacy_synthetic_150_v1.jsonl",
+      "training_rows": 1085
+    },
+    "TARGETED": {
+      "real935": "data/derived/train_clean_v3_semantic.jsonl",
+      "augmentation": "data/derived/d4_contrastive_train_v1.jsonl",
+      "training_rows": 1085
+    }
+  },
+  "frozen_hashes": {
+    "real935": "b706dbf0c0b4aab4cbcd07bb89c5d018f7c41e47a55b757016ef3d07a9713337",
+    "repeat150": "2bf63aba03eb41fcc0ecc427ad4aa21ef480aea1adabea4aab0ab596e9ff51c7",
+    "legacy150": "9ad6ac28a86b5905e38c777ff9515fce4374a3a7185fb2e792bcb29fe2073951",
+    "targeted150": "17258cbc0e40f4ebd1cd4d583e3a331e59217d62cf4ff36741e8b1e3a7a98f41"
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "training_recipe": {
+    "batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.01,
+    "scheduler": "cosine",
+    "warmup_ratio": 0.05,
+    "lora_r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "max_length": 256,
+    "fixed_optimizer_steps": 136,
+    "note": "All conditions must receive exactly the same number of optimizer updates. The existing epoch-based training loop must be modified before any paper runs."
+  },
+  "evaluation_policy": {
+    "organizer_validation300": "development evaluation; not final untouched test",
+    "d4_holdout75": "secondary historical stress evaluation only",
+    "external30": "secondary historical stress evaluation only",
+    "organizer_test500": "sealed until training protocol is frozen and all primary runs are complete",
+    "new_untouched_test": "required for primary paper conclusion"
+  },
+  "primary_metrics": [
+    "accuracy",
+    "macro_f1"
+  ],
+  "planned_runs": {
+    "conditions": 4,
+    "seeds_per_condition": 3,
+    "total_primary_training_runs": 12
+  }
+}

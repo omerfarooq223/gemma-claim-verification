@@ -59,3 +59,10 @@ wandb/
 .netrc
 *.key
 *.pem
+
+# Locally recovered competition/research artifacts
+data/recovered/
+data/organizer_recovered/
+
+# Python editable-install metadata
+*.egg-info/

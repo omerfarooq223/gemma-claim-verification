@@ -14,6 +14,8 @@ try:
     _TORCH_AVAILABLE = True
 except ImportError:
     _TORCH_AVAILABLE = False
+    Dataset = object  # type: ignore
+    DataLoader = None  # type: ignore
 
 
 class ClaimVerificationDataset(Dataset):
@@ -103,12 +105,46 @@ def collate_fn(batch: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
+def compute_fixed_budget_plan(
+    num_samples: int,
+    max_optimizer_steps: int,
+    batch_size: int,
+    gradient_accumulation_steps: int,
+) -> Dict[str, int]:
+    """Compute the exact exposure budget for fixed-step training."""
+    if num_samples <= 0:
+        raise ValueError("num_samples must be positive.")
+    if max_optimizer_steps <= 0:
+        raise ValueError("max_optimizer_steps must be positive.")
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive.")
+    if gradient_accumulation_steps <= 0:
+        raise ValueError("gradient_accumulation_steps must be positive.")
+
+    micro_batches = (
+        max_optimizer_steps * gradient_accumulation_steps
+    )
+    example_exposures = micro_batches * batch_size
+
+    full_passes = example_exposures // num_samples
+    partial_pass_examples = example_exposures % num_samples
+
+    return {
+        "optimizer_steps": max_optimizer_steps,
+        "micro_batches": micro_batches,
+        "example_exposures": example_exposures,
+        "full_passes": full_passes,
+        "partial_pass_examples": partial_pass_examples,
+    }
+
+
 def train_qlora(
     model: Any,
     processor: Any,
     train_records: List[Dict[str, Any]],
     output_dir: str = "checkpoints/final_adapter",
     epochs: int = 2,
+    max_optimizer_steps: Optional[int] = None,
     batch_size: int = 1,
     gradient_accumulation_steps: int = 16,
     learning_rate: float = 2e-4,
@@ -117,7 +153,13 @@ def train_qlora(
     seed: int = 42,
     max_length: int = DEFAULT_MAX_SEQ_LENGTH,
 ) -> str:
-    """Execute exact competition training recipe for Gemma 4 QLoRA."""
+    """Execute Gemma 4 QLoRA training.
+
+    If max_optimizer_steps is provided, training uses a fixed optimizer-step
+    budget and carries gradient accumulation across dataset-pass boundaries.
+    This ensures every optimizer update contains the same number of
+    micro-batches across differently sized training conditions.
+    """
     if not _TORCH_AVAILABLE:
         raise ImportError("PyTorch and Transformers must be installed.")
 
@@ -143,8 +185,18 @@ def train_qlora(
     )
 
     num_samples = len(train_records)
+    if num_samples == 0:
+        raise ValueError("Training dataset is empty.")
+
     steps_per_epoch = math.ceil(num_samples / (batch_size * gradient_accumulation_steps))
-    total_steps = steps_per_epoch * epochs
+
+    if max_optimizer_steps is not None:
+        if max_optimizer_steps <= 0:
+            raise ValueError("max_optimizer_steps must be a positive integer.")
+        total_steps = max_optimizer_steps
+    else:
+        total_steps = steps_per_epoch * epochs
+
     warmup_steps = int(total_steps * warmup_ratio)
 
     scheduler = get_cosine_schedule_with_warmup(
@@ -153,48 +205,155 @@ def train_qlora(
         num_training_steps=total_steps,
     )
 
-    print(f"Starting QLoRA training: {num_samples} records, {epochs} epochs, {total_steps} total optimizer steps.")
-
     global_step = 0
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    for epoch in range(1, epochs + 1):
-        # Deterministic per-epoch shuffle
-        epoch_rng = random.Random(seed + epoch)
-        shuffled_indices = list(range(num_samples))
-        epoch_rng.shuffle(shuffled_indices)
-        epoch_records = [train_records[i] for i in shuffled_indices]
+    if max_optimizer_steps is not None:
+        expected_micro_batches = total_steps * gradient_accumulation_steps
+        expected_example_exposures = expected_micro_batches * batch_size
 
-        dataset = ClaimVerificationDataset(epoch_records, processor, max_length=max_length)
-        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn)
+        print(
+            "Starting fixed-budget QLoRA training: "
+            f"{num_samples} records, "
+            f"{total_steps} optimizer steps, "
+            f"{expected_micro_batches} micro-batches."
+        )
 
-        epoch_loss = 0.0
         optimizer.zero_grad()
+        micro_step = 0
+        data_pass = 0
+        examples_seen = 0
 
-        for step, batch in enumerate(dataloader):
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
-            labels = batch["labels"].to(device)
+        while global_step < total_steps:
+            data_pass += 1
 
-            with torch.autocast(device_type="cuda" if torch.cuda.is_available() else "cpu", dtype=torch.float16):
-                outputs = model(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    labels=labels,
-                )
-                loss = outputs.loss / gradient_accumulation_steps
+            # Preserve the historical deterministic shuffle convention:
+            # first pass uses seed + 1, second pass seed + 2, etc.
+            pass_rng = random.Random(seed + data_pass)
+            shuffled_indices = list(range(num_samples))
+            pass_rng.shuffle(shuffled_indices)
+            pass_records = [train_records[i] for i in shuffled_indices]
 
-            loss.backward()
-            epoch_loss += loss.item() * gradient_accumulation_steps
+            dataset = ClaimVerificationDataset(
+                pass_records,
+                processor,
+                max_length=max_length,
+            )
+            dataloader = DataLoader(
+                dataset,
+                batch_size=batch_size,
+                shuffle=False,
+                collate_fn=collate_fn,
+            )
 
-            if (step + 1) % gradient_accumulation_steps == 0 or (step + 1) == len(dataloader):
-                optimizer.step()
-                scheduler.step()
-                optimizer.zero_grad()
-                global_step += 1
+            pass_loss = 0.0
+            pass_batches = 0
 
-        avg_loss = epoch_loss / len(dataloader)
-        print(f"Epoch {epoch}/{epochs} completed — Avg Loss: {avg_loss:.4f} (Global Step: {global_step})")
+            for batch in dataloader:
+                input_ids = batch["input_ids"].to(device)
+                attention_mask = batch["attention_mask"].to(device)
+                labels = batch["labels"].to(device)
+
+                with torch.autocast(
+                    device_type="cuda" if torch.cuda.is_available() else "cpu",
+                    dtype=torch.float16,
+                ):
+                    outputs = model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels,
+                    )
+                    raw_loss = outputs.loss
+                    loss = raw_loss / gradient_accumulation_steps
+
+                loss.backward()
+
+                pass_loss += raw_loss.item()
+                pass_batches += 1
+                examples_seen += input_ids.shape[0]
+                micro_step += 1
+
+                # Do NOT force an optimizer step at a dataset boundary.
+                # Accumulation continues into the next shuffled data pass.
+                if micro_step % gradient_accumulation_steps == 0:
+                    optimizer.step()
+                    scheduler.step()
+                    optimizer.zero_grad()
+                    global_step += 1
+
+                    if global_step >= total_steps:
+                        break
+
+            avg_pass_loss = pass_loss / max(pass_batches, 1)
+            print(
+                f"Data pass {data_pass} completed/partially consumed "
+                f"— Avg Loss: {avg_pass_loss:.4f} "
+                f"(Global Step: {global_step}/{total_steps})"
+            )
+
+        if micro_step != expected_micro_batches:
+            raise RuntimeError(
+                f"Fixed-budget training consumed {micro_step} micro-batches; "
+                f"expected exactly {expected_micro_batches}."
+            )
+
+        if examples_seen != expected_example_exposures:
+            raise RuntimeError(
+                f"Fixed-budget training consumed {examples_seen} example exposures; "
+                f"expected exactly {expected_example_exposures}."
+            )
+
+        print(
+            "Fixed-budget training complete: "
+            f"{global_step} optimizer steps, "
+            f"{micro_step} micro-batches, "
+            f"{examples_seen} example exposures."
+        )
+
+    else:
+        print(
+            f"Starting epoch-based QLoRA training: "
+            f"{num_samples} records, {epochs} epochs, "
+            f"{total_steps} total optimizer steps."
+        )
+
+        for epoch in range(1, epochs + 1):
+            # Deterministic per-epoch shuffle
+            epoch_rng = random.Random(seed + epoch)
+            shuffled_indices = list(range(num_samples))
+            epoch_rng.shuffle(shuffled_indices)
+            epoch_records = [train_records[i] for i in shuffled_indices]
+
+            dataset = ClaimVerificationDataset(epoch_records, processor, max_length=max_length)
+            dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn)
+
+            epoch_loss = 0.0
+            optimizer.zero_grad()
+
+            for step, batch in enumerate(dataloader):
+                input_ids = batch["input_ids"].to(device)
+                attention_mask = batch["attention_mask"].to(device)
+                labels = batch["labels"].to(device)
+
+                with torch.autocast(device_type="cuda" if torch.cuda.is_available() else "cpu", dtype=torch.float16):
+                    outputs = model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels,
+                    )
+                    loss = outputs.loss / gradient_accumulation_steps
+
+                loss.backward()
+                epoch_loss += loss.item() * gradient_accumulation_steps
+
+                if (step + 1) % gradient_accumulation_steps == 0 or (step + 1) == len(dataloader):
+                    optimizer.step()
+                    scheduler.step()
+                    optimizer.zero_grad()
+                    global_step += 1
+
+            avg_loss = epoch_loss / len(dataloader)
+            print(f"Epoch {epoch}/{epochs} completed — Avg Loss: {avg_loss:.4f} (Global Step: {global_step})")
 
     # Save final adapter and tokenizer configurations
     model.save_pretrained(output_dir)
