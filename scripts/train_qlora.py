@@ -35,13 +35,16 @@ def main():
     print(f"Total training curriculum size: {len(train_records)} examples")
 
     model_name = cfg["model"]["name"]
+    model_revision = cfg["model"].get("revision")
     load_4bit = cfg["model"].get("load_in_4bit", True)
     max_length = cfg["model"].get("max_length", DEFAULT_MAX_SEQ_LENGTH)
 
     print(f"\nLoading base model: {model_name} (4-bit NF4: {load_4bit})")
+    print(f"Model revision: {model_revision or 'default/latest'}")
     base_model, processor = load_base_model_and_processor(
         model_name_or_path=model_name,
         load_in_4bit=load_4bit,
+        revision=model_revision,
     )
 
     lora_cfg = cfg["lora"]

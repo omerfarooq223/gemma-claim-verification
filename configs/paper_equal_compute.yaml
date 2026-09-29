@@ -1,5 +1,6 @@
 model:
   name: "google/gemma-4-12B-it"
+  revision: "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7"
   load_in_4bit: true
   quant_type: "nf4"
   double_quant: true

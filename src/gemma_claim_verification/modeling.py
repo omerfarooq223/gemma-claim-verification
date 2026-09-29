@@ -31,6 +31,7 @@ def load_base_model_and_processor(
     model_name_or_path: str = DEFAULT_BASE_MODEL,
     device_map: Optional[Union[str, Dict[str, Any]]] = None,
     load_in_4bit: bool = True,
+    revision: Optional[str] = None,
 ) -> Tuple[Any, Any]:
     """Load base Gemma model with 4-bit quantization and processor."""
     if not _TORCH_AVAILABLE:
@@ -44,6 +45,7 @@ def load_base_model_and_processor(
     # Gemma 4 unified processor
     processor = AutoProcessor.from_pretrained(
         model_name_or_path,
+        revision=revision,
         trust_remote_code=True,
     )
 
@@ -53,6 +55,7 @@ def load_base_model_and_processor(
 
     model = model_cls.from_pretrained(
         model_name_or_path,
+        revision=revision,
         quantization_config=quantization_config,
         device_map=device_map,
         low_cpu_mem_usage=True,
