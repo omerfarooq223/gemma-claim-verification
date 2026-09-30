@@ -1,0 +1,67 @@
+{
+  "evaluation_separation": {
+    "gold_access_during_prediction": false,
+    "metric_computation_during_prediction": false,
+    "model_selection_from_test500": false
+  },
+  "generation": {
+    "do_sample": false,
+    "enable_thinking": false,
+    "max_new_tokens": 24,
+    "max_prompt_length": 256,
+    "num_beams": 1,
+    "prompt_truncation": false
+  },
+  "implementation": {
+    "config_path": "configs/paper_inference.yaml",
+    "config_sha256": "5acf02fef9d875335b6aa9fe0951fb0abfc3a41b1c2e27cfcb70c655fea51296",
+    "parent_repository_head": "a0856e0754c708b007be26f9e5302cacfb9faa00",
+    "prediction_script": "scripts/predict.py",
+    "prediction_script_sha256": "15b5d10033c3ac6a280e942b78373f8a38cf0f3a895f6404a2e1935b91c85b1a",
+    "training_code_freeze_commit": "45034cb61c3f47efd3cbcb791aa8b7caba620eee"
+  },
+  "model": {
+    "load_in_4bit": true,
+    "name": "google/gemma-4-12B-it",
+    "revision": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7"
+  },
+  "prediction_policy": {
+    "adapter": "Use each fixed-final LoRA adapter independently.",
+    "freeze_before_gold": "All 12 prediction files must be generated and SHA-256 frozen before Test500 gold is accessed.",
+    "invalid_outputs": "Record invalid-output count for each run; do not manually repair predictions.",
+    "prediction_file": "One submission CSV per primary run.",
+    "required_id_order": "Exact Test500 input ID order.",
+    "required_rows": 500
+  },
+  "prompt_length_audit": {
+    "decision": "No truncation is required or permitted for the primary Test500 inference.",
+    "items_over_256": 0,
+    "maximum_tokens": 209,
+    "mean_tokens": 184.86,
+    "minimum_tokens": 166,
+    "n_items": 500,
+    "p50_tokens": 183,
+    "p90_tokens": 203,
+    "p95_tokens": 206,
+    "p99_tokens": 209
+  },
+  "purpose": "Freeze deterministic blind Test500 inference behavior before any primary Test500 prediction is generated.",
+  "schema": "paper_v1_inference_protocol_v1",
+  "status_at_freeze": {
+    "primary_training_runs_complete": 12,
+    "primary_training_runs_planned": 12,
+    "test500_gold_status": "SEALED",
+    "test500_metrics_observed": false,
+    "test500_predictions_generated": false
+  },
+  "test500": {
+    "fields_observed": [
+      "claim",
+      "evidence",
+      "id"
+    ],
+    "gold_fields_present": false,
+    "input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+    "n_items": 500
+  }
+}

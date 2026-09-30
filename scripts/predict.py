@@ -32,12 +32,15 @@ def main():
 
     model_name = cfg["model"]["name"]
     load_4bit = cfg["model"].get("load_in_4bit", True)
+    revision = cfg["model"].get("revision")
     max_new_tokens = cfg.get("generation", {}).get("max_new_tokens", DEFAULT_MAX_NEW_TOKENS)
 
     print(f"Loading base model: {model_name}")
+    print(f"Model revision: {revision}")
     base_model, processor = load_base_model_and_processor(
         model_name_or_path=model_name,
         load_in_4bit=load_4bit,
+        revision=revision,
     )
 
     print(f"Attaching LoRA adapter from: {args.adapter}")
