@@ -1,0 +1,63 @@
+{
+  "analysis_effect": {
+    "bootstrap_changed": false,
+    "comparison_definitions_changed": false,
+    "estimands_changed": false,
+    "metrics_changed": false,
+    "only_change": "Canonical class-name terminology.",
+    "seed_pairing_changed": false
+  },
+  "correction": {
+    "canonical_labels": [
+      "SUPPORTS",
+      "REFUTES",
+      "NOT_ENOUGH_INFO"
+    ],
+    "evidence": {
+      "code_allowed_labels": [
+        "SUPPORTS",
+        "REFUTES",
+        "NOT_ENOUGH_INFO"
+      ],
+      "supervised_completion_format": "FINAL: <CANONICAL_LABEL>",
+      "training_data_labels": [
+        "SUPPORTS",
+        "REFUTES",
+        "NOT_ENOUGH_INFO"
+      ]
+    },
+    "incorrect_descriptive_spellings": [
+      "SUPPORTED",
+      "REFUTED"
+    ],
+    "mapping": {
+      "REFUTED": "REFUTES",
+      "SUPPORTED": "SUPPORTS"
+    }
+  },
+  "parser_policy": {
+    "change_required": false,
+    "fallback_behavior": "A recoverable canonical label without the required FINAL: prefix may still be used as the predicted label but remains is_valid=False for output-format diagnostics.",
+    "manual_repair_allowed": false,
+    "valid_output_definition": "is_valid=True only when generation contains an explicit 'FINAL: <CANONICAL_LABEL>' occurrence."
+  },
+  "prior_protocols": {
+    "analysis_protocol": {
+      "path": "experiments/paper_v1/protocol_amendment_002_analysis.json",
+      "sha256": "ce1fb83bd8fe66bc42a4f14bf8f5a845217ae143beb5f3eb0d175d063be56d72"
+    },
+    "inference_protocol": {
+      "path": "experiments/paper_v1/protocol_amendment_003_inference.json",
+      "sha256": "e471f95a7bfd0ead2b54efdaa72f85ef341eebd007a1b44ea20bb0bdc237034c"
+    }
+  },
+  "purpose": "Prospectively correct two class-name spellings in the statistical analysis protocol before any primary Test500 prediction or metric is observed.",
+  "reporting_rule": "All paper tables, figures, metrics, confusion matrices, and per-class results must use SUPPORTS, REFUTES, and NOT_ENOUGH_INFO.",
+  "schema": "paper_v1_label_terminology_amendment_v1",
+  "status_at_freeze": {
+    "primary_training_runs_complete": 12,
+    "test500_gold_status": "SEALED",
+    "test500_metrics_observed": false,
+    "test500_predictions_generated": false
+  }
+}
