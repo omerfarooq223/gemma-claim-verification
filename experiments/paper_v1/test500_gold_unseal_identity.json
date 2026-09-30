@@ -1,0 +1,24 @@
+{
+  "id_key": "id",
+  "id_order_matches_test500": true,
+  "id_set_matches_test500": true,
+  "label_key": "label",
+  "metrics_computed": false,
+  "preunseal_freeze_sha256": "3fad0831ec45cfc688de274021ed248eeca2fb12fcaa198b1b254706218fcda8",
+  "raw_label_distribution": {
+    "NOT_ENOUGH_INFO": 166,
+    "REFUTES": 167,
+    "SUPPORTS": 167
+  },
+  "raw_label_values": [
+    "NOT_ENOUGH_INFO",
+    "REFUTES",
+    "SUPPORTS"
+  ],
+  "rows": 500,
+  "schema": "test500_gold_identity_v1",
+  "source": "/kaggle/input/datasets/omerfarooq223/gold-labels/02_EVENT_DAY_SUPERVISED/verification scripts/data_and_answers/gold_submission.jsonl",
+  "source_content_sha256": "696595096e2202422c4396f830e08b4ad1489b59054d2a496271a4ef94cfcbd7",
+  "test500_input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+  "unsealed_after_preunseal_commit": "3f5d022c1696129599e35bd48d4fcf0dab0495df"
+}
