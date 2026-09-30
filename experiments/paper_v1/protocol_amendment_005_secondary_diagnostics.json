@@ -1,0 +1,80 @@
+{
+  "combined_inference_input": {
+    "contains_gold_labels": false,
+    "id_scheme": "<dataset>::<original_id>",
+    "index_sha256": "b40120f640b3c03ff1d084e06f63a70e1a4c0174426447c581c927f8bc27f99e",
+    "ordering": [
+      "validation300",
+      "d4_holdout75",
+      "external30"
+    ],
+    "rows": 405,
+    "sha256": "c9391d352c9fd708ee31ca25a13b257e6ee1f2adaac74875304a8d357f924da8"
+  },
+  "datasets": {
+    "d4_holdout75": {
+      "primary_endpoint": false,
+      "role": "historical targeted-failure diagnostic",
+      "rows": 75,
+      "source_sha256": "61f41a537f738ecd153474565c1e22bb678c4f8a9dd096ed9eabfe5bddc2e1b2"
+    },
+    "external30": {
+      "primary_endpoint": false,
+      "role": "historical external stress diagnostic",
+      "rows": 30,
+      "source_sha256": "05624200845a79228ac4e05540b013ea0836d049802fcd3f9dcc60ada8aecedc"
+    },
+    "validation300": {
+      "primary_endpoint": false,
+      "role": "development/reporting diagnostic",
+      "rows": 300,
+      "source_sha256": "722a5f111693996369a02d26eda08f00cdfb51f5b8b842addb752814f03716c9"
+    }
+  },
+  "interpretation": {
+    "constraint": "Secondary diagnostics may explain benefits and trade-offs but cannot change the frozen primary Test500 conclusion.",
+    "d4_holdout75": "Historical targeted-failure diagnostic; useful for characterizing failure-family behavior but not a replacement for Test500.",
+    "external30": "Small historical external stress diagnostic; descriptive only.",
+    "status": "secondary/descriptive",
+    "validation300": "Development/reporting diagnostic; historically available during model development."
+  },
+  "metrics": {
+    "bootstrap": null,
+    "condition_aggregation": [
+      "all per-seed values",
+      "mean across seeds",
+      "sample standard deviation across seeds"
+    ],
+    "inferential_test": null,
+    "reported": [
+      "macro_f1",
+      "accuracy",
+      "per_class_precision",
+      "per_class_recall",
+      "per_class_f1",
+      "confusion_matrix"
+    ]
+  },
+  "models": {
+    "checkpoint_policy": "same fixed-final adapters as primary Test500",
+    "conditions": [
+      "REAL",
+      "REPEAT",
+      "LEGACY",
+      "TARGETED"
+    ],
+    "runs": 12,
+    "seeds": [
+      42,
+      43,
+      44
+    ]
+  },
+  "primary_result_status": {
+    "already_frozen": true,
+    "already_observed": true,
+    "secondary_results_may_override_primary": false
+  },
+  "purpose": "Freeze secondary diagnostic evaluation after the primary Test500 analysis and its interpretation were permanently recorded.",
+  "schema": "paper_v1_secondary_diagnostics_protocol_v1"
+}
