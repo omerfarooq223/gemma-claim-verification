@@ -1,0 +1,22 @@
+{
+  "asset_manifest_sha256": "3070bca3be4a9706028ce56c2404b6b7f214a5fbe7ee53131dc5ce25f0928d93",
+  "assets": {
+    "figure1_primary_test500_macro_f1.pdf": "a40e84ad8205bff6f2d81a0e301c89e498b933f98dda6805b01945d25471f212",
+    "figure1_primary_test500_macro_f1.png": "ccf02c5eda93c9bde23382983fbe19573ed13ebdb2c3587048f06f4d3f8cf47e",
+    "figure2_primary_macro_f1_contrasts.pdf": "19933be1bad44eb48ed0706b2383cc47866b653966d9c3530b34c2c588a88442",
+    "figure2_primary_macro_f1_contrasts.png": "ad2cc7f04ec0c2e2f59f8230df889c29c85a6dbfc8537181a0c3c6ac0b689522",
+    "figure3_secondary_macro_f1.pdf": "1673f0c58f89f20f0556b6a7adbe5e7132ceb960bd85a95f723ac972f7c3cad5",
+    "figure3_secondary_macro_f1.png": "705620886fa6c3d2da094cb5bfaa04dab3c829d4943bfd4627b5f7abda74374f",
+    "paper_results_summary_v1.json": "2b0d6853cdc5887a063fa5e15b1eb2fa7c42851469e1b7d0f3c7876dc3ca2e01",
+    "table1_primary_test500_condition_summary.csv": "294ccfbef766c5a82a980654e403d957a5685ae9ad1bf9610058d9a9a5459701",
+    "table1_primary_test500_condition_summary.tex": "3bb5059d4962d656b11aad63f5efe03123a9edf3327d8b3c26fba86a5e3c7be2",
+    "table2_primary_contrasts.csv": "73244f1fbe8ff2042413b2c9c1314f6c8679be44c16b2c3a901eff336acc6bb6",
+    "table2_primary_contrasts.tex": "fe8d88349d6ec6db7473ce2c367e8fbcf0ff253918861976eb6b125f030609b3",
+    "table3_secondary_diagnostics.csv": "219c2a0daa76760ffe90aec8a0ded6badc6a5b0bbd80f4698f0548dd44ec6586"
+  },
+  "drafting_constraint": "Manuscript claims and reported numerical results should remain consistent with these frozen assets and the previously frozen primary and secondary analyses.",
+  "primary_results_sha256": "8d0c2fc0d202499c107340b1652b1236ead170d0ff5a61f2a53bc43e9c2c7ae7",
+  "purpose": "Freeze the exact tables, figures, and consolidated paper-results summary used as the basis for manuscript drafting.",
+  "schema": "paper_assets_freeze_v1",
+  "secondary_results_sha256": "10de7da0993a1c55cdc9c87ac36dfb5ef3423a5ab95187cf52f3c5a82dc7e9d6"
+}

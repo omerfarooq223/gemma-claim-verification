@@ -1,0 +1,4 @@
+Contrast,Macro-F1 effect,Macro-F1 CI low,Macro-F1 CI high,Accuracy effect,Accuracy CI low,Accuracy CI high
+TARGETED - LEGACY,+0.0105,-0.0094,+0.0343,+0.0107,-0.0093,+0.0340
+TARGETED - REPEAT,+0.0040,-0.0183,+0.0260,+0.0040,-0.0180,+0.0260
+TARGETED - REAL,+0.0186,-0.0025,+0.0383,+0.0187,-0.0020,+0.0380
