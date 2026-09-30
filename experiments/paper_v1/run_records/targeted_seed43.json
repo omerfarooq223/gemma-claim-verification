@@ -1,0 +1,43 @@
+{
+  "artifacts": {
+    "adapter_model_sha256": "759558e6165368590162dc70b523eac47f8cf3f515125ce4ed174b48c8087f1c",
+    "run_record_sha256": "291f477659a6f46844986e272ef83ce1ede1807177fe4569fca1b513bf42015b",
+    "training_log_sha256": "b2ed4147007e46cedf145b40f913f70b0d7647029fd81a946288f032783d11ee"
+  },
+  "compute": {
+    "elapsed_minutes": 79.05,
+    "example_exposures": 2176,
+    "micro_batches": 2176,
+    "optimizer_steps": 136
+  },
+  "condition": "TARGETED",
+  "evaluation": {
+    "evaluation_performed": false,
+    "test500_gold_status": "SEALED"
+  },
+  "external_backup": {
+    "contains_adapter": true,
+    "contains_frozen_protocol_metadata": true,
+    "contains_run_record": true,
+    "contains_training_log": true,
+    "filename": "targeted_seed43_primary_run.tar.gz",
+    "sha256": "3d7c8651ff78291c387bc7a963cc107014235df40a308b7769b43f90664f763d",
+    "size_bytes": 125983228
+  },
+  "frozen_context": {
+    "code_freeze_commit": "45034cb61c3f47efd3cbcb791aa8b7caba620eee",
+    "manifest_commit": "bbaa9e877583b677ed6b7546a3092c4d1423dfb0",
+    "manifest_sha256": "b3f9bc2d754a859235e1b4c72f9600ef9ec615c39c969d0e72a450e2f1f59d9a"
+  },
+  "parallel_execution": {
+    "enabled": true,
+    "paired_with": "targeted_seed42",
+    "physical_gpu": 1,
+    "stagger_seconds": 120
+  },
+  "run_id": "targeted_seed43",
+  "run_order": 6,
+  "schema": "primary_run_provenance_v1",
+  "seed": 43,
+  "training_status": "COMPLETE"
+}
