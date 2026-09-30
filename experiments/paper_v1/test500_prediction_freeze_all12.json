@@ -1,0 +1,192 @@
+{
+  "external_backup": {
+    "downloaded_externally": true,
+    "filename": "test500_blind_predictions_all12.tar.gz",
+    "sha256": "d1eaf3e19cac727571e3d0e404234c83b8244ca464acd5729c1b796ef6902c17",
+    "size_bytes": 61800
+  },
+  "inference_freeze": {
+    "inference_config_sha256": "5acf02fef9d875335b6aa9fe0951fb0abfc3a41b1c2e27cfcb70c655fea51296",
+    "model_revision": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7",
+    "prediction_script_sha256": "15b5d10033c3ac6a280e942b78373f8a38cf0f3a895f6404a2e1935b91c85b1a",
+    "repository_head": "b3f3c72d40a3bdf0845d7255404a5a5724594199"
+  },
+  "prediction_manifest": {
+    "sha256": "56ccf74735bcb919e6037023069a57f2c7868e3d75ca98bfff52f9f0cf02f5bb",
+    "source_filename": "blind_prediction_manifest_all12.json"
+  },
+  "purpose": "Immutable record that all 12 primary Test500 prediction files were generated and SHA-256 frozen before gold access.",
+  "runs": {
+    "legacy_seed42": {
+      "adapter_sha256": "efaed5a5fa0a0fd727de8def7e781b6ad75ade8f3da732142cbda2fd421651e1",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 163,
+        "REFUTES": 158,
+        "SUPPORTS": 179
+      },
+      "log_sha256": "191d1dfb021d192441f1f90a99a4943e62fab1df9531d1b4b8ff737262ad8663",
+      "prediction_csv_sha256": "b0d5946115bd2bae10da0f88693ea500cee1a15babfa82ee716a97341ca43519",
+      "prediction_record_sha256": "d0792d8122e724f2607e225d1f5edd7e8fcc9c0f4218697ca95601a38fbeb920",
+      "run_order": 4
+    },
+    "legacy_seed43": {
+      "adapter_sha256": "ac6b14bbf3647a622d8f7ffeed1cb64451f8c48f364800ba3d4f7197983c943f",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 162,
+        "REFUTES": 165,
+        "SUPPORTS": 173
+      },
+      "log_sha256": "dab4a008ef23ac452296994768fd0ef1ef89c076ae369d62aeed951c30a8a3be",
+      "prediction_csv_sha256": "e94c62b7ec48ebd4357c5933373cb0fcbc78dd847155c8b1b6d6799094472d79",
+      "prediction_record_sha256": "7863ea915a6d7abc7b7dfc9161bd19084ed4f2e3df4895d5a1386e23f7dc2be9",
+      "run_order": 2
+    },
+    "legacy_seed44": {
+      "adapter_sha256": "2475a2dd7c92eacb0f42bf47e3147f2cdcef21df4479e72d0ca13bf8802af808",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 166,
+        "REFUTES": 164,
+        "SUPPORTS": 170
+      },
+      "log_sha256": "c731982f65bb1216223cda828f321e2729cccd26daf8cf8d4570b1d030fe68d6",
+      "prediction_csv_sha256": "1d960ffdb67753e61ee5ea924818bfb4d782d6320c6fd3879140b81148f7fcbc",
+      "prediction_record_sha256": "1758a067b91ae23259cb65efe578831b384adb2f5a5a31f2f1a40c67468324fe",
+      "run_order": 7
+    },
+    "real_seed42": {
+      "adapter_sha256": "d893e9c1c2ef5db9be8435ec0c6d5cc1a00a0bcce6567996c494f220d332ea7b",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 164,
+        "REFUTES": 165,
+        "SUPPORTS": 171
+      },
+      "log_sha256": "4515f1faa68f033cf58dc89471725d0fc8016506f94b6617b29f3dbc7fb38082",
+      "prediction_csv_sha256": "b1f63b2502cbbd0ee78d9c1f726b0fc06cae348b1c53fb5a243563750ec8cf82",
+      "prediction_record_sha256": "1cd7fb60406c2a3512567af4d73f1e8148163e881a125b8612cfa9cd01ab0286",
+      "run_order": 1
+    },
+    "real_seed43": {
+      "adapter_sha256": "b10af99d2e4e20bb66fb77f9a656b5360c4502fbe73bce63321ca159efcde1c3",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 165,
+        "REFUTES": 162,
+        "SUPPORTS": 173
+      },
+      "log_sha256": "bac151643bb0e9cf7a45f3363964a55a765459d86223c7c6b90284d08915596c",
+      "prediction_csv_sha256": "948c4c3fa4e277c03df4d0874c65d8a868b506d3b308072095e390163b15491f",
+      "prediction_record_sha256": "e22354c7bf5bcd3cfa484b997ecc2f21aa539ed31eedec6b8945eebda0762fcf",
+      "run_order": 3
+    },
+    "real_seed44": {
+      "adapter_sha256": "e73cd33f7774dc8e2fb0033b217f169d76fd3c3bdf68707da57e453ac24f5b88",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 168,
+        "REFUTES": 162,
+        "SUPPORTS": 170
+      },
+      "log_sha256": "59192d83ba716cb1a0a819745d4a19166e6e97b6ea0404f85f26fcd789bf9262",
+      "prediction_csv_sha256": "798c5fa60cf3b246f712ec72215a14a91f3e407154b1d6afc70fe5153c66eb5d",
+      "prediction_record_sha256": "7d7a9484d50022703b64d2f481c0c74f1d1cfe71ccdcb79d4de5169ade5a5b66",
+      "run_order": 8
+    },
+    "repeat_seed42": {
+      "adapter_sha256": "796f34b5f0f12f6114a42718fa761d875c80cd679de0e3e70a8aeef95d49cb08",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 164,
+        "REFUTES": 165,
+        "SUPPORTS": 171
+      },
+      "log_sha256": "a23ad4ee3d6a2b8a9f1e5a2d6b4447e5eff0cd97152d48f000ef00c703dda7d9",
+      "prediction_csv_sha256": "8dab161b07a143c961f7f6542033803856a93f38fe7e18e22685cfa59178b2c5",
+      "prediction_record_sha256": "6ea5051fe173ae5fa4043b87bbe40b3b873688b967a0c594c2d581850c7c90b8",
+      "run_order": 10
+    },
+    "repeat_seed43": {
+      "adapter_sha256": "75cfbf0206b3b0b2242d95c3cdf7f61d307e41c839a1f10c06c793861966ce70",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 166,
+        "REFUTES": 171,
+        "SUPPORTS": 163
+      },
+      "log_sha256": "8ae651cca6df55514c2a764c29ab33af809e7ae1d5afac5174dc77cd01e26212",
+      "prediction_csv_sha256": "0a3990da8a186bc8c89707395b34592f0743019ca787b1e14f4eec7559d38173",
+      "prediction_record_sha256": "21783bed2a498930d68e50bc9904d753bdef0f44006a4e1e7f46232811cf8ef3",
+      "run_order": 12
+    },
+    "repeat_seed44": {
+      "adapter_sha256": "cdcfdf047ef9c2c5607932e2a03f66e287478976dddb9e48fc7ada4eeadf2537",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 166,
+        "REFUTES": 189,
+        "SUPPORTS": 145
+      },
+      "log_sha256": "b6365aae4a929b685229de655bfd8d215c59f278b0fd1bed404ae74d903ae6c9",
+      "prediction_csv_sha256": "623d8e6bfdcc357159a3c1a73a524e7cdb67f68a1ff4c3b4abf865493e71a796",
+      "prediction_record_sha256": "cfb8c63cfae58a6d716bcd7fc2230e66f991ea96c2ef9ae277570a6708a95a47",
+      "run_order": 9
+    },
+    "targeted_seed42": {
+      "adapter_sha256": "fdb95c1779b381ccbabd1fd81dc0f1a7c7b742babc224eee51140780a94ecae7",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 165,
+        "REFUTES": 141,
+        "SUPPORTS": 194
+      },
+      "log_sha256": "5995a2800f9493bfc3f6c29757bd2db322eb6150a2b3e7ab662d89c7d3c134d7",
+      "prediction_csv_sha256": "1fae7f3e94663627bd6c927558f7a41df54e0b225a4121dcd0d49e6748968235",
+      "prediction_record_sha256": "2440301669870bf74a5bf1b91629b5f7642c71c8f6afcce6f542657c03c8a1f6",
+      "run_order": 5
+    },
+    "targeted_seed43": {
+      "adapter_sha256": "759558e6165368590162dc70b523eac47f8cf3f515125ce4ed174b48c8087f1c",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 168,
+        "REFUTES": 166,
+        "SUPPORTS": 166
+      },
+      "log_sha256": "9ae35efa02395bc3c096909772479df0c1c7cbd8413c2995e41772dbc0b9560c",
+      "prediction_csv_sha256": "5c47c374cd3f8c2da9161c2866a1a3cc55ebf356864aefeff3327d249efa859d",
+      "prediction_record_sha256": "45e32145e35e5847f6cf62566917dfaef9afb15df05c6d97ddc71acc3b8c320b",
+      "run_order": 6
+    },
+    "targeted_seed44": {
+      "adapter_sha256": "34e83752ca920eb61381742f7030a89e29e7e394e73d0225796308099a8fe8f8",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 167,
+        "REFUTES": 163,
+        "SUPPORTS": 170
+      },
+      "log_sha256": "024c5aeb450e2cab5ce1bf4a672f1cb892e43f7fea38c46e4103957937c7bcfc",
+      "prediction_csv_sha256": "392f6e803a9a30ef81ac602655a8709409ef079ec23d558f6f5bb6fe6941f13d",
+      "prediction_record_sha256": "e604b12a2346f4c1895a81f44607e94a87518a1e760126beede8c9f44d4c3acf",
+      "run_order": 11
+    }
+  },
+  "schema": "test500_prediction_freeze_all12_v1",
+  "status": {
+    "manual_prediction_repairs": 0,
+    "primary_models_trained": 12,
+    "primary_predictions_frozen": 12,
+    "test500_gold_status": "SEALED",
+    "test500_items": 500,
+    "test500_metrics_observed": false
+  },
+  "test500_input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+  "unseal_gate": {
+    "condition": "Gold may be accessed only after 12/12 prediction files are frozen.",
+    "condition_satisfied": true,
+    "gold_access_at_time_of_this_record": false
+  }
+}
