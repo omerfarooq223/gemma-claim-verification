@@ -1,0 +1,57 @@
+{
+  "artifact_sha256": {
+    "hierarchical_bootstrap_deltas_10000_v1.npz": "f0bd73cd375be5cc90a9bfa9b3886d5829336dff83b0d362c5ef7f311413267f",
+    "per_run_primary_metrics_v1.csv": "e023b74101682326745e60915fa04a8c7ab15f205e202adb17abaca7c2bbe606",
+    "primary_test500_results_v1.json": "8d0c2fc0d202499c107340b1652b1236ead170d0ff5a61f2a53bc43e9c2c7ae7"
+  },
+  "condition_macro_f1": {
+    "LEGACY": {
+      "mean": 0.9362190925648245,
+      "per_seed": {
+        "42": 0.910269591843814,
+        "43": 0.9602628591842262,
+        "44": 0.9381248266664334
+      },
+      "sample_sd": 0.025051059093220144
+    },
+    "REAL": {
+      "mean": 0.9281332764162077,
+      "per_seed": {
+        "42": 0.9402693794723452,
+        "43": 0.9322249668653217,
+        "44": 0.9119054829109561
+      },
+      "sample_sd": 0.014617937784955315
+    },
+    "REPEAT": {
+      "mean": 0.9426674023783291,
+      "per_seed": {
+        "42": 0.9562032242291743,
+        "43": 0.9441037594883749,
+        "44": 0.9276952234174382
+      },
+      "sample_sd": 0.014308174896931154
+    },
+    "TARGETED": {
+      "mean": 0.9466873554401393,
+      "per_seed": {
+        "42": 0.9420628538344517,
+        "43": 0.95996595397793,
+        "44": 0.9380332585080359
+      },
+      "sample_sd": 0.011674771688111684
+    }
+  },
+  "interpretation_constraint": "TARGETED has the highest mean Test500 macro-F1, but the pre-specified 95% interval for the primary TARGETED-minus-LEGACY contrast includes zero. Do not claim definitive superiority.",
+  "primary_confirmatory_contrast": "TARGETED_minus_LEGACY macro_f1",
+  "primary_confirmatory_result": {
+    "bootstrap_mean": 0.010606187360833224,
+    "ci_95_percentile": [
+      -0.009351166746936751,
+      0.034298010458473194
+    ],
+    "observed_effect": 0.010468262875314771
+  },
+  "result_status": "FIRST_PRIMARY_TEST500_ANALYSIS",
+  "schema": "paper_v1_primary_result_freeze_v1"
+}
