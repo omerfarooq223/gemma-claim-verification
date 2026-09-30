@@ -1,0 +1,42 @@
+{
+  "artifact_sha256": {
+    "secondary_condition_summary_v1.csv": "f5859d2c19290f3d658dbe3900638e93602780e38fc7c96b46d6d3558b1cef30",
+    "secondary_diagnostics_results_v1.json": "10de7da0993a1c55cdc9c87ac36dfb5ef3423a5ab95187cf52f3c5a82dc7e9d6",
+    "secondary_per_run_metrics_v1.csv": "83349d6005141e97ab4f7ffe4134f84f3e153474f042bf1901e51524f9c5a8a2"
+  },
+  "headline_descriptive_results": {
+    "d4_holdout75_macro_f1_mean": {
+      "LEGACY": 0.8034286459913008,
+      "REAL": 0.7991309387194575,
+      "REPEAT": 0.7689677834734635,
+      "TARGETED": 0.8586795154611245
+    },
+    "external30_macro_f1_mean": {
+      "LEGACY": 0.914218636009366,
+      "REAL": 0.9150052337695359,
+      "REPEAT": 0.8929042792640405,
+      "TARGETED": 0.9151515151515152
+    },
+    "validation300_macro_f1_mean": {
+      "LEGACY": 0.9157263604663707,
+      "REAL": 0.9407968407027734,
+      "REPEAT": 0.9143605703455125,
+      "TARGETED": 0.9442993877628191
+    }
+  },
+  "interpretation_constraints": [
+    "Validation300 is a historically available development/reporting diagnostic and is not confirmatory evidence.",
+    "D4 holdout75 is a targeted-failure diagnostic. The larger TARGETED mean is descriptive evidence that the intervention affects the intended failure families, but it does not establish general superiority.",
+    "External30 contains only 30 examples. TARGETED, REAL, and LEGACY have similar descriptive means; no equivalence or superiority claim should be made from this diagnostic.",
+    "No inferential test or bootstrap was pre-specified for the secondary diagnostics.",
+    "The previously frozen primary Test500 conclusion cannot be altered by these results."
+  ],
+  "invalid_format_outputs": {
+    "interpretation": "Format-invalid generations were processed using the frozen parser and were not manually corrected.",
+    "manual_repairs": 0,
+    "total_across_12_models_x_405_items": 5
+  },
+  "primary_result_may_be_revised": false,
+  "schema": "paper_v1_secondary_result_freeze_v1",
+  "status": "SECONDARY_DESCRIPTIVE_RESULTS_FROZEN"
+}
