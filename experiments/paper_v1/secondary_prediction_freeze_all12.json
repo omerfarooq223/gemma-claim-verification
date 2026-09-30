@@ -1,0 +1,199 @@
+{
+  "external_backup": {
+    "downloaded_externally": true,
+    "filename": "secondary_diagnostics_predictions_all12.tar.gz",
+    "sha256": "096decf40167f09c569f188ef645062c964ace4086e18a085659ded320013219",
+    "size_bytes": 64286
+  },
+  "interpretation_constraint": "Secondary diagnostics are descriptive and cannot override or revise the already frozen primary Test500 conclusion.",
+  "invalid_output_policy": "Predictions remain exactly as produced by the pre-frozen parser. Invalid-format outputs are not manually repaired and are reported only as an inference-format diagnostic.",
+  "invalid_outputs_by_run": {
+    "legacy_seed42": 0,
+    "legacy_seed43": 0,
+    "legacy_seed44": 0,
+    "real_seed42": 2,
+    "real_seed43": 0,
+    "real_seed44": 0,
+    "repeat_seed42": 0,
+    "repeat_seed43": 0,
+    "repeat_seed44": 1,
+    "targeted_seed42": 1,
+    "targeted_seed43": 0,
+    "targeted_seed44": 1
+  },
+  "prediction_manifest": {
+    "filename": "secondary_prediction_manifest_all12.json",
+    "sha256": "5361fa96686cb4e968098d50af5c3198fbc38cdaddcbb03ed60a605acfb0871b"
+  },
+  "purpose": "Record that all 12 fixed-final adapters produced secondary diagnostic predictions before any Validation300, D4 holdout, or External30 metric was computed.",
+  "runs": {
+    "legacy_seed42": {
+      "adapter_sha256": "efaed5a5fa0a0fd727de8def7e781b6ad75ade8f3da732142cbda2fd421651e1",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 135,
+        "REFUTES": 142,
+        "SUPPORTS": 128
+      },
+      "log_sha256": "c8866e163c2726d92cfd23e0c4b8b8c5bc824f8f1cacd0d52b66bb1676195e0a",
+      "prediction_csv_sha256": "32c20e6f49f0ee475c29bb56fe0bcdf595ef2038389d972fd4170698df3d8678",
+      "prediction_record_sha256": "290d0d6e5cae6f29e17f2f3f63c21b3043884c33926c765c8467b789f2fe186c",
+      "run_order": 4
+    },
+    "legacy_seed43": {
+      "adapter_sha256": "ac6b14bbf3647a622d8f7ffeed1cb64451f8c48f364800ba3d4f7197983c943f",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 132,
+        "REFUTES": 137,
+        "SUPPORTS": 136
+      },
+      "log_sha256": "de5464ccd4bcf3a841a63c1636b77a886c5fd248a5443f0433f0b27746cf6307",
+      "prediction_csv_sha256": "397432160598678cd4771ccdb84c712ababc163bc64105887ab6c382a0e24303",
+      "prediction_record_sha256": "84f49250816f05886dcbe0c7ff33c30fe8c929853e53893e719723b776db5884",
+      "run_order": 2
+    },
+    "legacy_seed44": {
+      "adapter_sha256": "2475a2dd7c92eacb0f42bf47e3147f2cdcef21df4479e72d0ca13bf8802af808",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 134,
+        "REFUTES": 157,
+        "SUPPORTS": 114
+      },
+      "log_sha256": "58f5ec498283eed99da69750cdcf220c0490cea34e217b880bdc69de121a5df5",
+      "prediction_csv_sha256": "181a4d47f13e2ce4ad19c1732fb30e0d8fce02abe3b907885518fcaeaaa6dda4",
+      "prediction_record_sha256": "8dce1e1bf8d4e27eafac467bf3b76718845e176f0e1fe5ea1b4164f365927b4d",
+      "run_order": 7
+    },
+    "real_seed42": {
+      "adapter_sha256": "d893e9c1c2ef5db9be8435ec0c6d5cc1a00a0bcce6567996c494f220d332ea7b",
+      "invalid_outputs": 2,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 132,
+        "REFUTES": 132,
+        "SUPPORTS": 141
+      },
+      "log_sha256": "15cbd3bb11429d03d0b3838ef73704828ec3dd0addc0b6005755869e19325254",
+      "prediction_csv_sha256": "6424f1e070e63445aae143eaef499baf8875d4fcc172c2f543c9f9d50b71530d",
+      "prediction_record_sha256": "e7f1fcd4ad7489994bc5c4edfc8f6c9248b8c204c60a79008c50002932ea8e79",
+      "run_order": 1
+    },
+    "real_seed43": {
+      "adapter_sha256": "b10af99d2e4e20bb66fb77f9a656b5360c4502fbe73bce63321ca159efcde1c3",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 136,
+        "REFUTES": 130,
+        "SUPPORTS": 139
+      },
+      "log_sha256": "d1265b4746362dda6fcdc196d4619c5c7f801439a548fb43f89ebe99b3961f96",
+      "prediction_csv_sha256": "978367211fb5522ddf9c47df40d030d079939c407ce8e66d9e98f3602a6d07e0",
+      "prediction_record_sha256": "29ed91d3dfcc97f24feefbc6d61507efd5e0187655c61a24cc349149e47b9b35",
+      "run_order": 3
+    },
+    "real_seed44": {
+      "adapter_sha256": "e73cd33f7774dc8e2fb0033b217f169d76fd3c3bdf68707da57e453ac24f5b88",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 132,
+        "REFUTES": 131,
+        "SUPPORTS": 142
+      },
+      "log_sha256": "e039fa6efd3f8557366d1645eaa2fd2b72d32198d15eaca2f7e5ef5e68de4bcb",
+      "prediction_csv_sha256": "0eb36153cee8d6d3a21fff3e64dd973f7555cb3a4f8588e814b6536354115936",
+      "prediction_record_sha256": "61ea3e49e1490fbea3dc3d5c8660d2054f5906a65638b86230b50758446db50a",
+      "run_order": 8
+    },
+    "repeat_seed42": {
+      "adapter_sha256": "796f34b5f0f12f6114a42718fa761d875c80cd679de0e3e70a8aeef95d49cb08",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 131,
+        "REFUTES": 144,
+        "SUPPORTS": 130
+      },
+      "log_sha256": "9893bfaabf3b28c89fe2edb992df8ab5d3c2e581c66a6e1860ce57c85d1cec71",
+      "prediction_csv_sha256": "f8b0c0651d86d72792d6f8090be6abf660632c65a2052e2495ff6acec4970846",
+      "prediction_record_sha256": "0a64b5f140224498e743f21b258c3e872d69f1654011d505859b60c59b90f425",
+      "run_order": 10
+    },
+    "repeat_seed43": {
+      "adapter_sha256": "75cfbf0206b3b0b2242d95c3cdf7f61d307e41c839a1f10c06c793861966ce70",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 129,
+        "REFUTES": 146,
+        "SUPPORTS": 130
+      },
+      "log_sha256": "c3ca81c5c7e0079722bd75b35e583a264417fbabd0357742466cefdaf2ce90d0",
+      "prediction_csv_sha256": "d40befd1a259b3c1870ec781841d312c5c78360fdfb6a16ae5cc0cae55d84577",
+      "prediction_record_sha256": "b90beb69914ba49a5f162588e576139ce15a0f770d12d170ce2ef12216767909",
+      "run_order": 12
+    },
+    "repeat_seed44": {
+      "adapter_sha256": "cdcfdf047ef9c2c5607932e2a03f66e287478976dddb9e48fc7ada4eeadf2537",
+      "invalid_outputs": 1,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 134,
+        "REFUTES": 170,
+        "SUPPORTS": 101
+      },
+      "log_sha256": "e17a2299eee609205597d5b4d95309b1b82875602a04ac37b300de758373926c",
+      "prediction_csv_sha256": "92df39cec73192832cea4ebac9e51dd5b0b5c4873a784b8708b8b8a709fd2659",
+      "prediction_record_sha256": "05d778d5d8796b66921b8b68f1f64e7f113d602954e88ab8108f5ff337cad13f",
+      "run_order": 9
+    },
+    "targeted_seed42": {
+      "adapter_sha256": "fdb95c1779b381ccbabd1fd81dc0f1a7c7b742babc224eee51140780a94ecae7",
+      "invalid_outputs": 1,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 132,
+        "REFUTES": 115,
+        "SUPPORTS": 158
+      },
+      "log_sha256": "19cae3c390631ed742212c64945432b0925ff4ef44d878c68783c68f2c5c4b02",
+      "prediction_csv_sha256": "984d5d329be7d53f99a0e90ff0ebdb5027e96115fea897b010bbd243e0f33547",
+      "prediction_record_sha256": "747e4f65d65ebfd33a33a4960d113f52afc042049f89c3ca9efd233e0e99d16c",
+      "run_order": 5
+    },
+    "targeted_seed43": {
+      "adapter_sha256": "759558e6165368590162dc70b523eac47f8cf3f515125ce4ed174b48c8087f1c",
+      "invalid_outputs": 0,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 141,
+        "REFUTES": 130,
+        "SUPPORTS": 134
+      },
+      "log_sha256": "3a4bfacbdf7753ded3cbd59252b2529fb412f083194bb3a0831c36e0f14f5a3d",
+      "prediction_csv_sha256": "bf435272b9e8535a8ebd92348ad6a3f523350e81bd5a11063a2a9e19327ec19e",
+      "prediction_record_sha256": "974a4163a26f5286f1e63056e65b4ce5a3b2675219d6d0a3ca2d408d5793402f",
+      "run_order": 6
+    },
+    "targeted_seed44": {
+      "adapter_sha256": "34e83752ca920eb61381742f7030a89e29e7e394e73d0225796308099a8fe8f8",
+      "invalid_outputs": 1,
+      "label_distribution": {
+        "NOT_ENOUGH_INFO": 133,
+        "REFUTES": 139,
+        "SUPPORTS": 133
+      },
+      "log_sha256": "e407c99c0c7b8172aeab9685ae876a9cb857b61a33d8ed6f2beed4593671e40e",
+      "prediction_csv_sha256": "9a74f65909f4fcd9dc415f1d475a1360d7db8efb4946e656433038a76ec096d4",
+      "prediction_record_sha256": "8e55efa96ec472d1f5f2504070676a744867b6d28f6953d292cc6f2f671393ee",
+      "run_order": 11
+    }
+  },
+  "schema": "secondary_prediction_freeze_all12_v1",
+  "secondary_index_sha256": "b40120f640b3c03ff1d084e06f63a70e1a4c0174426447c581c927f8bc27f99e",
+  "secondary_input_sha256": "c9391d352c9fd708ee31ca25a13b257e6ee1f2adaac74875304a8d357f924da8",
+  "secondary_protocol_sha256": "1dacc75fb9ae70a448a4e46fff07d22a912ab4cd3ec79876898d809253a67bb5",
+  "status": {
+    "invalid_outputs_total": 5,
+    "manual_repairs": 0,
+    "metrics_observed": false,
+    "models": 12,
+    "prediction_files": 12,
+    "rows_per_model": 405
+  }
+}
