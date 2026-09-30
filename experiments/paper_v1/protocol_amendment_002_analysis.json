@@ -1,0 +1,144 @@
+{
+  "conditions": [
+    "REAL",
+    "REPEAT",
+    "LEGACY",
+    "TARGETED"
+  ],
+  "descriptive_reporting": {
+    "required": [
+      "per-seed macro-F1",
+      "per-seed accuracy",
+      "condition mean and standard deviation",
+      "seed-matched condition deltas",
+      "per-class precision/recall/F1",
+      "confusion matrices"
+    ],
+    "training_loss_policy": "Training loss is optimization diagnostics only and will not be interpreted as evidence for the research hypothesis."
+  },
+  "endpoints": {
+    "label_handling": {
+      "classes": [
+        "SUPPORTED",
+        "REFUTED",
+        "NOT_ENOUGH_INFO"
+      ],
+      "macro_f1": "Unweighted arithmetic mean of class-wise F1 over all three fixed labels.",
+      "zero_division_policy": 0
+    },
+    "primary_metric": "macro_f1",
+    "secondary_metrics": [
+      "accuracy",
+      "per_class_precision",
+      "per_class_recall",
+      "per_class_f1",
+      "confusion_matrix"
+    ]
+  },
+  "estimands": {
+    "key_secondary": [
+      {
+        "contrast": "TARGETED - REPEAT",
+        "metric": "macro_f1"
+      },
+      {
+        "contrast": "TARGETED - REAL",
+        "metric": "macro_f1"
+      },
+      {
+        "contrast": "TARGETED - LEGACY",
+        "metric": "accuracy"
+      },
+      {
+        "contrast": "TARGETED - REPEAT",
+        "metric": "accuracy"
+      },
+      {
+        "contrast": "TARGETED - REAL",
+        "metric": "accuracy"
+      }
+    ],
+    "primary_confirmatory": {
+      "contrast": "TARGETED - LEGACY",
+      "direction": "Positive values indicate higher TARGETED macro-F1.",
+      "metric": "macro_f1",
+      "unit": "absolute metric difference"
+    }
+  },
+  "primary_external_evaluation": {
+    "dataset": "Organizer Test500",
+    "gold_policy": "Gold labels remain sealed until predictions from all 12 fixed-final primary models are generated and SHA-frozen.",
+    "input_sha256": "8811c713e4297c0ce6e89a020d212621af538c74fa3866f4b5d98914ca3b8a28",
+    "model_selection": "No checkpoint, seed, condition, or hyperparameter selection may use Test500.",
+    "n_items": 500
+  },
+  "purpose": "Prospectively freeze the statistical analysis plan after all 12 primary models were trained but before Test500 gold labels were unsealed.",
+  "reporting_constraints": {
+    "hypothesis_language": "Conclusions must distinguish primary Test500 evidence from secondary diagnostics and exploratory observations.",
+    "no_best_seed_reporting_as_primary": true,
+    "no_posthoc_condition_selection": true,
+    "no_test_based_checkpoint_selection": true
+  },
+  "schema": "paper_v1_analysis_protocol_v1",
+  "secondary_diagnostics": {
+    "d4_holdout75": {
+      "not_primary": true,
+      "role": "secondary historical targeted-failure diagnostic"
+    },
+    "external30": {
+      "not_primary": true,
+      "role": "secondary historical external stress diagnostic"
+    },
+    "policy": "Secondary diagnostics may characterize failure modes but cannot replace or override the primary Test500 conclusion.",
+    "validation300": {
+      "not_primary": true,
+      "role": "development/reporting diagnostic"
+    }
+  },
+  "seed_aggregation": {
+    "no_seed_selection": true,
+    "paired_seed_deltas": "Condition contrasts use matched seeds: 42 with 42, 43 with 43, and 44 with 44.",
+    "per_condition_reporting": [
+      "all three per-seed scores",
+      "arithmetic mean across seeds",
+      "sample standard deviation across seeds"
+    ]
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "status_at_freeze": {
+    "primary_training_runs_complete": 12,
+    "primary_training_runs_planned": 12,
+    "test500_gold_status": "SEALED",
+    "test500_metrics_observed": false,
+    "test500_predictions_generated": false
+  },
+  "uncertainty": {
+    "confidence_interval": {
+      "level": 0.95,
+      "lower_quantile": 0.025,
+      "method": "percentile",
+      "upper_quantile": 0.975
+    },
+    "interpretation": "Report effect estimates and confidence intervals. No null-hypothesis significance-test p-values are planned.",
+    "method": "hierarchical_paired_bootstrap",
+    "pairing": {
+      "items": "paired across conditions",
+      "seeds": "paired by identical seed ID"
+    },
+    "procedure": [
+      "For each bootstrap replicate, sample 3 seed IDs with replacement from [42, 43, 44].",
+      "Sample 500 Test500 item indices with replacement.",
+      "Use the same sampled item indices for every condition and every sampled matched-seed comparison.",
+      "For each sampled seed and condition, compute the metric on the bootstrap item sample.",
+      "Average the metric across the 3 sampled seeds to obtain one bootstrap condition-level estimate.",
+      "For each pre-specified contrast, subtract comparator from TARGETED within the same bootstrap replicate.",
+      "Report the 2.5th and 97.5th percentiles of the 10,000 bootstrap differences as the 95% interval."
+    ],
+    "replicates": 10000,
+    "rng_seed": 20261001
+  }
+}
