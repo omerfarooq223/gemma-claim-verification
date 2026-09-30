@@ -1,0 +1,44 @@
+{
+  "artifacts": {
+    "adapter_model_sha256": "796f34b5f0f12f6114a42718fa761d875c80cd679de0e3e70a8aeef95d49cb08",
+    "run_record_sha256": "41d8cf7a6964ad2d3edaf5877edd9756ce394d2d11016c2713ef07a693fa19a3",
+    "training_log_sha256": "30ded62b0beb95213d5f1e0cb8699e9b1983cd51a1a224fd21d34066de862385"
+  },
+  "compute": {
+    "elapsed_minutes": 64.35,
+    "example_exposures": 2176,
+    "micro_batches": 2176,
+    "optimizer_steps": 136
+  },
+  "condition": "REPEAT",
+  "evaluation": {
+    "evaluation_performed": false,
+    "test500_gold_status": "SEALED"
+  },
+  "external_backup": {
+    "contains_adapter": true,
+    "contains_frozen_protocol_metadata": true,
+    "contains_run_record": true,
+    "contains_training_log": true,
+    "filename": "repeat_seed42_primary_run.tar.gz",
+    "sha256": "b20368a8ba68887206f928daaf6dd23b0c8015832e096ff43138854ad9df9ac6",
+    "size_bytes": 126033828
+  },
+  "frozen_context": {
+    "code_freeze_commit": "45034cb61c3f47efd3cbcb791aa8b7caba620eee",
+    "execution_repo_head": "fcba69ffd71323665d11eab4a4838ca621f5b7a4",
+    "manifest_commit": "bbaa9e877583b677ed6b7546a3092c4d1423dfb0",
+    "manifest_sha256": "b3f9bc2d754a859235e1b4c72f9600ef9ec615c39c969d0e72a450e2f1f59d9a"
+  },
+  "parallel_execution": {
+    "enabled": true,
+    "paired_with": "repeat_seed44",
+    "physical_gpu": 1,
+    "stagger_seconds": 120
+  },
+  "run_id": "repeat_seed42",
+  "run_order": 10,
+  "schema": "primary_run_provenance_v1",
+  "seed": 42,
+  "training_status": "COMPLETE"
+}
