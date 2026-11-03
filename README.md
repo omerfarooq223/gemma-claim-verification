@@ -47,6 +47,8 @@ The model evaluates the claim strictly grounded within the provided evidence pas
 
 ## Results
 
+### Competition checkpoint
+
 These are the recorded results for my selected competition checkpoint:
 
 | Evaluation set | Examples | Accuracy | Macro-F1 |
@@ -59,6 +61,27 @@ These are the recorded results for my selected competition checkpoint:
 On the event-day test, 472 of 500 predictions were correct, with zero invalid or unparseable outputs. Most errors were subtle contradictions classified as support (26 examples with a true label of `REFUTES` were predicted as `SUPPORTS`).
 
 The [experiment history](docs/experiments.md) includes detailed logs for all evaluation sets, earlier checkpoints, and the reproduction run.
+
+### Controlled equal-compute evaluation
+
+To evaluate whether failure-targeted contrastive augmentation provides genuine advantages over simple repeat exposure or legacy synthetic augmentation under controlled computational conditions, we conducted a pre-registered, equal-compute study ([`experiments/paper_v1/`](experiments/paper_v1/)) across 4 conditions and 3 random seeds (12 models trained for exactly 136 optimizer updates with batch size 1, gradient accumulation 16, and base-model revision `707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7`).
+
+| Condition | Training data | Optimizer steps | Macro-F1 (mean ± SD) | Accuracy (mean ± SD) |
+|---|---|---:|---:|---:|
+| `REAL` | 935 clean real | 136 | 92.81% ± 1.46% | 92.80% ± 1.44% |
+| `REPEAT` | 935 real + 150 repeated real | 136 | 94.27% ± 1.43% | 94.27% ± 1.40% |
+| `LEGACY` | 935 real + 150 legacy synthetic | 136 | 93.62% ± 2.51% | 93.60% ± 2.51% |
+| `TARGETED` | 935 real + 150 targeted contrastive | 136 | **94.67% ± 1.17%** | **94.67% ± 1.17%** |
+
+Pre-registered hierarchical bootstrap statistical contrasts (10,000 resamples):
+
+| Contrast | Macro-F1 effect | 95% Confidence interval | Accuracy effect | 95% Confidence interval |
+|---|---:|---:|---:|---:|
+| `TARGETED - LEGACY` | +1.05% | [-0.94%, +3.43%] | +1.07% | [-0.93%, +3.40%] |
+| `TARGETED - REPEAT` | +0.40% | [-1.83%, +2.60%] | +0.40% | [-1.80%, +2.60%] |
+| `TARGETED - REAL` | +1.86% | [-0.25%, +3.83%] | +1.87% | [-0.20%, +3.80%] |
+
+`TARGETED` achieved the highest mean performance and lowest variance across seeds on the blind 500-example test set. Furthermore, on hard out-of-distribution stress evaluations (`D4 holdout75`), `TARGETED` delivered an **85.87% Macro-F1** (compared to 80.34% for `LEGACY`, 79.91% for `REAL`, and 76.90% for `REPEAT`), demonstrating enhanced resilience against subtle numerical and entity perturbations. All frozen tables, figures, and manifests are available in [`experiments/paper_v1/paper_assets_v1/`](experiments/paper_v1/paper_assets_v1/).
 
 ## How to run
 
@@ -130,11 +153,20 @@ I trained the final adapter from a fresh base model. For in-depth documentation,
 The competition data and audited contrastive files are documented in [data/README.md](data/README.md). Once those files are placed in `data/derived/`:
 
 ```bash
+# Standard training run
 python scripts/train_qlora.py \
   --config configs/final_train.yaml \
   --train_clean data/derived/train_clean_v3_semantic.jsonl \
   --contrastive data/derived/d4_contrastive_train_v1.jsonl \
   --output_dir checkpoints/final_adapter
+
+# Controlled equal-compute research run (fixed 136 optimizer steps, pinned revision, seed override)
+python scripts/train_qlora.py \
+  --config configs/paper_equal_compute.yaml \
+  --train_clean data/derived/train_clean_v3_semantic.jsonl \
+  --contrastive data/derived/d4_contrastive_train_v1.jsonl \
+  --output_dir checkpoints/paper_targeted_seed42 \
+  --seed 42
 ```
 
 To verify the weights of my winning checkpoint against the recorded SHA-256 hash:
@@ -156,13 +188,14 @@ Expected SHA-256:
 | Path | Contents |
 |---|---|
 | `app.py` | Gradio demo for local use and Hugging Face Spaces |
-| `src/gemma_claim_verification/` | Data cleaning, prompts, model loading, training, inference, and evaluation |
-| `scripts/` | Command-line entry points |
-| `configs/` | Training and inference settings |
-| `tests/` | Tests for data processing and inference behavior |
+| `src/gemma_claim_verification/` | Data cleaning, prompts, model loading, training (including fixed-budget execution), inference, and evaluation |
+| `scripts/` | Command-line entry points for training, prediction, evaluation, and artifact verification |
+| `configs/` | Training and inference configurations (including `final_train.yaml`, `paper_equal_compute.yaml`, and `paper_inference.yaml`) |
+| `experiments/paper_v1/` | Pre-registered research protocol, amendments 001–005, run records, result freezes, and publication assets |
+| `tests/` | Unit and integration tests for data processing, fixed-budget plans, modeling, and inference |
 | `notebooks/` | Final competition run and development history |
 | `docs/` | Methodology, experiments, model card, and provenance |
-| `data/` | Sample records and instructions for competition files |
+| `data/` | Sample records, derived manifests, and instructions for competition files |
 
 Run the test suite:
 
