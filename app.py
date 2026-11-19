@@ -1,7 +1,7 @@
 """
 Gradio Web Application for Gemma 4 12B Claim Verification
-AI Seekho Day 2026 — 1st Place Winning Solution
-Author: Muhammad Umar Farooq
+ICIC 2026 Accepted Research Paper (IEEE) & AI Seekho Day 2026 1st Place Winning Solution
+Authors: Muhammad Umar Farooq, Hasaan Ahmad, Sadaf Jabeen
 """
 
 try:
@@ -585,9 +585,9 @@ with gr.Blocks(theme=theme, css=custom_css, title="Gemma Claim Verification") as
     gr.HTML(
         """
         <div class="hero-banner">
-            <div class="champ-badge">🏆 1st PLACE WINNER — AI SEEKHO DAY 2026</div>
+            <div class="champ-badge">🏆 1st PLACE WINNER — AI SEEKHO DAY 2026 &bull; ICIC 2026 ACCEPTED PAPER (IEEE)</div>
             <div class="hero-title">Gemma 4 12B Evidence Claim Verifier</div>
-            <div class="hero-subtitle">Fine-Tuned 12B QLoRA Model by <b>Muhammad Umar Farooq</b></div>
+            <div class="hero-subtitle">Research Paper &amp; Fine-Tuned 12B QLoRA Model by <b>Muhammad Umar Farooq</b>, <b>Hasaan Ahmad</b>, and <b>Sadaf Jabeen</b></div>
         </div>
         <div class="identity-bar">
                 <a class="identity-link" href="https://omerfarooq223.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit Muhammad Umar Farooq's portfolio">

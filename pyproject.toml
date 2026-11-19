@@ -5,12 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gemma-claim-verification"
 version = "1.0.0"
-description = "Reliable evidence-based three-way claim verification using fine-tuned Gemma 4 with QLoRA."
+description = "Official repository for 'Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification' (ICIC 2026 / IEEE) and 1st-place winning solution of the AI Seekho Day 2026 Gemma Fine-Tuning Competition."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 authors = [
-    { name = "M. Umar Farooq & Team" }
+    { name = "Muhammad Umar Farooq", email = "momerfarooq223@gmail.com" },
+    { name = "Hasaan Ahmad", email = "hasaanahmad021@gmail.com" },
+    { name = "Sadaf Jabeen", email = "sadaf.jabeen@umt.edu.pk" }
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

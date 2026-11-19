@@ -17,21 +17,23 @@ language:
 ---
 
 # 🏆 Gemma 4 12B Evidence Verification QLoRA
-### **1st Place Winning Solution — AI Seekho Day 2026**
+### **Accepted at ICIC 2026 (IEEE) &bull; 1st Place Winning Solution — AI Seekho Day 2026**
 
 ## Model Details
 
 ### Model Description
 
-- **Developed by**: Muhammad Umar Farooq
+- **Developed by**: Muhammad Umar Farooq, Hasaan Ahmad, and Sadaf Jabeen (Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan)
 - **Shared by**: Muhammad Umar Farooq
 - **Model type**: Fine-tuned PEFT/QLoRA Parameter-Efficient Adapter
 - **Language(s) (NLP)**: English (`en`)
 - **License**: Apache 2.0
 - **Finetuned from model**: [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it)
+- **Research Paper**: *"Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification"*, accepted at the 7th International Conference on Innovative Computing (ICIC 2026 / IEEE; to appear in IEEE Xplore).
 
 ### Model Sources
 
+- **Research Paper**: Accepted at the 7th International Conference on Innovative Computing (ICIC 2026 / IEEE)
 - **Base Model**: [https://huggingface.co/google/gemma-4-12B-it](https://huggingface.co/google/gemma-4-12B-it)
 - **Model Adapter**: [https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora)
 - **Live Demo**: [https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier)
@@ -133,11 +135,23 @@ $$\text{Overall Accuracy}: \mathbf{94.40\%} \quad (472 / 500 \text{ correct}) \q
 ## Citation
 
 ```bibtex
+@inproceedings{farooq2026failure,
+  author    = {Farooq, Muhammad Umar and Ahmad, Hasaan and Jabeen, Sadaf},
+  title     = {Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification},
+  booktitle = {Proceedings of the 7th International Conference on Innovative Computing (ICIC 2026)},
+  year      = {2026},
+  publisher = {IEEE}
+}
+```
+
+For the competition adapter artifact:
+
+```bibtex
 @misc{farooq2026gemma4claimverification,
-  author = {Farooq, Muhammad Umar},
-  title = {Reliable Evidence-Based Claim Verification with Gemma 4 12B},
-  year = {2026},
-  publisher = {Hugging Face},
+  author       = {Farooq, Muhammad Umar},
+  title        = {Gemma 4 12B Evidence Verification QLoRA Adapter},
+  year         = {2026},
+  publisher    = {Hugging Face},
   howpublished = {\url{https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora}}
 }
 ```
