@@ -12,7 +12,7 @@
 Official repository for the research paper:
 > **"Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification"**  
 > **Accepted at the 7th International Conference on Innovative Computing (ICIC 2026)** (IEEE).  
-> *Authors:* **Muhammad Umar Farooq**, **Hasaan Ahmad**, and **Sadaf Jabeen**  
+> *Authors:* **Muhammad Umar Farooq**, **Hasaan Ahmad**, and **Dr. Sadaf Jabeen**  
 > *Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan*  
 > *(To be published in IEEE Xplore following presentation)*
 
@@ -24,7 +24,6 @@ This repository combines the research work from our ICIC 2026 accepted paper wit
 | **Base Model** | [`google/gemma-4-12B-it`](https://huggingface.co/google/gemma-4-12B-it) | Google Gemma 4 12B instruction-tuned foundation model |
 | **Model Adapter** | [`omerfarooq223/gemma-4-12b-evidence-verification-qlora`](https://huggingface.co/omerfarooq223/gemma-4-12b-evidence-verification-qlora) | 1st-place QLoRA adapter weights on Hugging Face Hub |
 | **Live Demo** | [Hugging Face Space](https://huggingface.co/spaces/omerfarooq223/gemma-claim-verifier) | Interactive Gradio verification web application on ZeroGPU |
-| **Source Code** | [GitHub Repository](https://github.com/omerfarooq223/gemma-claim-verification) | Complete training, inference, and evaluation repository |
 
 <a id="competition-award"></a>
 <p align="center">
@@ -95,6 +94,11 @@ As published in our **ICIC 2026 paper**, we pre-registered an equal-compute stud
 | `TARGETED - REAL` | +0.0186 | [-0.0025, +0.0383] | +0.0187 | [-0.0020, +0.0380] |
 
 *Finding*: While `TARGETED` achieved the highest mean score and lowest seed-to-seed variance, the pre-registered 95% confidence interval spans zero, confirming a favorable mean trend without statistical certainty on the general test distribution.
+
+<p align="center">
+  <img src="experiments/paper_v1/paper_assets_v1/figure2_primary_macro_f1_contrasts.png" alt="Pre-specified blind Test500 macro-F1 contrasts with 95% bootstrap CIs" width="650">
+</p>
+<p align="center"><em>Figure 2 from the paper: Pre-specified blind Test500 macro-F1 contrasts. Points show mean matched-seed differences and horizontal bars show 95% hierarchical paired-bootstrap intervals.</em></p>
 
 **Failure-Family Partition Analysis (Table IV in paper):**
 Test500 items were partitioned into 320 targeted-family items (7 diagnostic families) vs. 180 other items:
@@ -224,6 +228,8 @@ Expected SHA-256:
 
 | Path | Contents |
 |---|---|
+| `CITATION.cff` | Citation File Format metadata for automated GitHub repository citation |
+| `citation.bib` | Standard BibTeX citation file for the ICIC 2026 paper and model adapter |
 | `app.py` | Gradio demo for local use and Hugging Face Spaces |
 | `src/gemma_claim_verification/` | Data cleaning, prompts, model loading, training (including fixed-budget execution), inference, and evaluation |
 | `scripts/` | Command-line entry points for training, prediction, evaluation, and artifact verification |
@@ -244,12 +250,12 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 
 This research project and codebase are authored by:
 - **[Muhammad Umar Farooq](https://github.com/omerfarooq223)** ([Portfolio](https://omerfarooq223.github.io/) · [GitHub](https://github.com/omerfarooq223) · [Hugging Face](https://huggingface.co/omerfarooq223)) — *Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan* (`momerfarooq223@gmail.com`)
-- **Hasaan Ahmad** — *Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan* (`hasaanahmad021@gmail.com`)
+- **[Hasaan Ahmad](https://github.com/Hasaan901)** — *Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan* (`hasaanahmad021@gmail.com`)
 - **Sadaf Jabeen** — *Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan* (`sadaf.jabeen@umt.edu.pk`)
 
 ### Citation
 
-If you use or build upon this research paper, codebase, or model weights, please cite our ICIC 2026 conference paper:
+You can cite this work using the repository citation button on GitHub, via [`CITATION.cff`](CITATION.cff), or using [`citation.bib`](citation.bib):
 
 ```bibtex
 @inproceedings{farooq2026failure,
@@ -257,7 +263,8 @@ If you use or build upon this research paper, codebase, or model weights, please
   title     = {Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification},
   booktitle = {Proceedings of the 7th International Conference on Innovative Computing (ICIC 2026)},
   year      = {2026},
-  publisher = {IEEE}
+  publisher = {IEEE},
+  note      = {Paper ID: 85}
 }
 ```
 

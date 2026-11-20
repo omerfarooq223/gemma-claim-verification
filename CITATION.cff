@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this software, model weights, or research findings, please cite it as below."
+title: "Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification"
+abstract: "We investigate whether directing a fixed synthetic-data budget toward observed verifier errors improves low-resource claim verification. We evaluate three-way claim verification with 935 organizer-supplied training pairs and four Gemma-4-12B QLoRA conditions under matched optimization budgets. Accepted at the 7th International Conference on Innovative Computing (ICIC 2026), IEEE."
+authors:
+  - family-names: "Farooq"
+    given-names: "Muhammad Umar"
+    email: "momerfarooq223@gmail.com"
+    affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+    website: "https://omerfarooq223.github.io/"
+  - family-names: "Ahmad"
+    given-names: "Hasaan"
+    email: "hasaanahmad021@gmail.com"
+    affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+  - family-names: "Jabeen"
+    given-names: "Sadaf"
+    email: "sadaf.jabeen@umt.edu.pk"
+    affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+version: 1.0.0
+date-released: "2026-11-20"
+repository-code: "https://github.com/omerfarooq223/gemma-claim-verification"
+url: "https://github.com/omerfarooq223/gemma-claim-verification"
+keywords:
+  - "claim verification"
+  - "fact checking"
+  - "data augmentation"
+  - "contrastive augmentation"
+  - "low-resource nlp"
+  - "parameter-efficient fine-tuning"
+  - "qlora"
+  - "gemma 4"
+license: Apache-2.0
+preferred-citation:
+  type: conference-paper
+  title: "Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification"
+  authors:
+    - family-names: "Farooq"
+      given-names: "Muhammad Umar"
+      email: "momerfarooq223@gmail.com"
+      affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+    - family-names: "Ahmad"
+      given-names: "Hasaan"
+      email: "hasaanahmad021@gmail.com"
+      affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+    - family-names: "Jabeen"
+      given-names: "Sadaf"
+      email: "sadaf.jabeen@umt.edu.pk"
+      affiliation: "Department of Artificial Intelligence, University of Management and Technology, Lahore, Pakistan"
+  collection-title: "Proceedings of the 7th International Conference on Innovative Computing (ICIC 2026)"
+  conference:
+    name: "7th International Conference on Innovative Computing (ICIC 2026)"
+  publisher:
+    name: "IEEE"
+  year: 2026

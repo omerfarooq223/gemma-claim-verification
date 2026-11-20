@@ -140,7 +140,8 @@ $$\text{Overall Accuracy}: \mathbf{94.40\%} \quad (472 / 500 \text{ correct}) \q
   title     = {Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification},
   booktitle = {Proceedings of the 7th International Conference on Innovative Computing (ICIC 2026)},
   year      = {2026},
-  publisher = {IEEE}
+  publisher = {IEEE},
+  note      = {Paper ID: 85}
 }
 ```
 

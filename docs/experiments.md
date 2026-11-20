@@ -57,3 +57,39 @@ In contrast to broad synthetic scaling, creating 150 audited contrastive trios (
 
 ### 4. Robustness-Driven Checkpoint Selection vs Single Validation Scores
 A later independent run using the nominally identical final training recipe produced a different adapter (`cf24e970...`) and improved organizer-validation accuracy from **92.33% to 93.33%**, but performance declined on independent stress evaluations, including External30 from **93.33% to 86.67%** (-6.66%) and Old Synthetic180 from **81.67% to 78.33%** (-3.34%). We therefore retained the previously frozen `76630...` checkpoint based on broader generalization.
+
+---
+
+## 5. Phase 5: Controlled Equal-Compute Research Benchmark (ICIC 2026 Paper)
+
+In our research paper *"Failure-Targeted Contrastive Augmentation for Low-Resource Claim Verification"* (accepted at the 7th International Conference on Innovative Computing, **ICIC 2026 / IEEE**, Paper ID 85), we formalized an empirical benchmark to address a fundamental question: **Under an equal computational budget, does failure-targeted contrastive augmentation improve low-resource verification more reliably than repeated real exposure or legacy synthetic augmentation?**
+
+### Equal-Compute Setup
+- **Matched Optimizer Steps**: Every condition received exactly 136 optimizer updates (2,176 example exposures with batch size 1 and gradient accumulation 16) to eliminate training compute confounds.
+- **Base Model Pinning**: `google/gemma-4-12B-it` pinned to exact commit revision `707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7`.
+- **4 Conditions Evaluated**:
+  1. `REAL`: 935 cleaned real examples.
+  2. `REPEAT`: 935 real + 150 duplicated real examples (50 per class).
+  3. `LEGACY`: 935 real + 150 legacy synthetic examples from A2.
+  4. `TARGETED`: 935 real + 150 failure-targeted contrastive trios spanning 10 diagnosed error families.
+
+### Prospective Sealed Test500 Evaluation (3 Seeds: 42, 43, 44)
+Predictions were generated and SHA-256 frozen before gold test labels were accessed.
+
+| Condition | Training Examples | Macro-F1 (mean ± SD) | Accuracy (mean ± SD) |
+|---|---:|---:|---:|
+| `REAL` | 935 | 0.9281 ± 0.0146 | 0.9280 ± 0.0144 |
+| `REPEAT` | 1,085 | 0.9427 ± 0.0143 | 0.9427 ± 0.0140 |
+| `LEGACY` | 1,085 | 0.9362 ± 0.0251 | 0.9360 ± 0.0251 |
+| `TARGETED` | 1,085 | **0.9467 ± 0.0117** | **0.9467 ± 0.0117** |
+
+- **Hierarchical Paired-Bootstrap Contrast (10,000 resamples)**:
+  - `TARGETED - LEGACY`: +0.0105 [95% CI: -0.0094, +0.0343]
+  - `TARGETED - REPEAT`: +0.0040 [95% CI: -0.0183, +0.0260]
+  - `TARGETED - REAL`: +0.0186 [95% CI: -0.0025, +0.0383]
+
+### Post-Review Exploratory Extension (5 Seeds: 42–46, 30 Models)
+- **`NOTRIO` Breakthrough**: Allocating 150 synthetic examples across the 10 failure families with independent evidence passages achieved **0.9621 ± 0.0162 Macro-F1** on Test500, outperforming `TARGETED` across all five seeds (+0.0177 difference, 95% CI: [+0.0039, +0.0325]).
+- **Cross-Domain Transfer**: On SciFact gold-rationale development pairs, `NOTRIO` also led transfer with **0.8332 two-class Macro-F1**.
+- **Prompt-Only Baselines**: Pinned Gemma 4 12B IT reached 0.7903 (0-shot) and 0.8252 (3-shot), demonstrating the vital importance of fine-tuning over in-context prompting.
+- **Frozen Artifacts**: All tables, figures, and manifests are available in `experiments/paper_v1/paper_assets_v1/`.
